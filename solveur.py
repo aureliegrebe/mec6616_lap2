@@ -35,14 +35,15 @@ def init_arrays(param: Settings):
     A = np.zeros((param.n,param.n))
 
     dx = param.length / param.n
+    X = np.array([dx / 2 + i * dx for i in range(param.n)])
 
-    return S, A, dx
+    return S, A, dx, X
 
 def set_inner_cells(S, A, dx, param: Settings):
     # n=N, k=THERM_COND, aire=AIRE, q_u=Q_U, q_p=Q_P):
     for i in range (1,param.n-1):
         a_w = a_e = param.therm_cond * param.aire / dx
-        s_u = param.q_u
+        s_u = param.q_u * param.aire * dx
         s_p = param.q_p
         A[i, i-1] = -a_w # a_w
         A[i, i] = a_w + a_e - s_p # a_p
@@ -59,10 +60,10 @@ def set_BC(S, A, dx, param: Settings, left=True):
         val = param.right_BC.val
     a_in = param.therm_cond * param.aire / dx
     if type == "DIRICHLET":
-        s_u = param.q_u + 2 * param.therm_cond * param.aire * val / dx
+        s_u = param.q_u * param.aire * dx + 2 * param.therm_cond * param.aire * val / dx
         s_p = param.q_p - 2 * param.therm_cond * param.aire / dx
     elif type == "NEUMANN":
-        s_u = param.q_u + param.aire * val
+        s_u = param.q_u * param.aire * dx + param.aire * val
         s_p = param.q_p
     else:
         raise(TypeError("Invalid boundary type"))
@@ -78,7 +79,7 @@ def set_BC(S, A, dx, param: Settings, left=True):
 
 def solve(settings: Settings):
     # initialise les arrays
-    S, A, dx = init_arrays(settings)
+    S, A, dx, X = init_arrays(settings)
 
     # cellules intérieurs
     set_inner_cells(S, A, dx, settings)
@@ -89,7 +90,7 @@ def solve(settings: Settings):
 
     T = np.linalg.solve(A, S)
 
-    return T
+    return X, T
 
 def main():
     param = Settings()
