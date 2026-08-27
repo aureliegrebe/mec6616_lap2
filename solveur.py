@@ -91,7 +91,7 @@ def solve(settings: Settings):
 
     T = np.linalg.solve(A, S)
 
-    return X, T, A
+    return X, T
 
 def main():
     param = Settings()

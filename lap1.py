@@ -124,7 +124,7 @@ def ex4_3():
     plt.figure("ex 4.3")
     for n in N_LIST:
         param.n = n
-        X, T , A= solve(param)
+        X, T = solve(param)
         plt.plot(X, T, label=f"n = {n}")
     plt.legend()
     plt.xlabel('x (en m)')
