@@ -4,7 +4,7 @@ import numpy as np
 from solveur import  solve, Settings, BC
 import matplotlib.pyplot as plt
 
-N_LIST = [5, 10, 20, 50, 100]
+N_LIST = [5, 10, 20, 50, 100, 200, 500, 1000]
 N_LIST_PLOT = [5, 10, 20]
 
 # Ex 4.1 
@@ -44,6 +44,22 @@ def ex4_1():
     plt.ylabel("T (°C)")
     plt.legend()
 
+    epsilon2 = []
+    dx = []
+    for n in N_LIST:
+        param.n = n
+        dx.append(L1 / n)
+        X, T = solve(param)
+        epsilon2.append(np.sqrt((T - sol_analytique_4_1(X))**2).mean())
+    plt.figure("err 4.1")
+    plt.plot(dx, epsilon2)
+    plt.xlabel("dx (m)")
+    plt.ylabel("ΔT (°C)")
+    plt.xscale("log")
+    plt.yscale("log")
+    plt.grid()
+
+
 def ex4_2():
     param = Settings()
     param.length = L2
@@ -64,6 +80,21 @@ def ex4_2():
     plt.xlabel("x (m)")
     plt.ylabel("T (°C)")
     plt.legend()
+
+    epsilon2 = []
+    dx = []
+    for n in N_LIST:
+        param.n = n
+        dx.append(L1 / n)
+        X, T = solve(param)
+        epsilon2.append(np.sqrt((T - sol_analytique_4_2(X))**2).mean())
+    plt.figure("err 4.2")
+    plt.plot(dx, epsilon2)
+    plt.xscale("log")
+    plt.yscale("log")
+    plt.grid()
+    plt.xlabel("dx (m)")
+    plt.ylabel("ΔT (°C)")
 
 def ex4_3():
     param = Settings()
