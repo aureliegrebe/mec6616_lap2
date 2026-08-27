@@ -130,6 +130,10 @@ def ex4_2():
     plt.ylabel("ε (°C)")
     plt.savefig("./figures/epsilon4_2.png")
 
+    # calcul d'ordre de convergence:
+    p = float(np.log(epsilon2[-1]/epsilon2[-2])/np.log(N_LIST[-2]/N_LIST[-1]))
+    print(f"Ordre de convergend pour ex 4.2: {p:.3}")
+
 def ex4_3():
     param = Settings()
     param.length = L3
@@ -167,6 +171,11 @@ def ex4_3():
     plt.grid()
     plt.xlabel("ln(h)")
     plt.ylabel("ln(ε)")
+
+    # calcul d'ordre de convergence:
+    p = float(np.log(epsilon2[-1]/epsilon2[-2])/np.log(N_LIST[-2]/N_LIST[-1]))
+    print(f"Ordre de convergend pour ex 4.3: {p:.3}")
+
 
 def main():
     ex4_1()
