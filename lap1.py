@@ -3,6 +3,12 @@
 import numpy as np
 from solveur import  solve, Settings, BC
 import matplotlib.pyplot as plt
+from cycler import cycler
+
+# figure parameters
+plt.rcParams.update({"font.size": 22})
+plt.rc("legend", fontsize=15)
+plt.rcParams["figure.figsize"] = [15, 8.5]
 
 N_LIST = [5, 10, 20, 50, 100, 200, 500, 1000]
 N_LIST_PLOT = [5, 10, 20]
@@ -34,12 +40,20 @@ def ex4_1():
     param.right_BC = BC("DIRICHLET", T_B1)
 
     plt.figure("ex 4.1")
+    plt.rc(
+        "axes",
+        prop_cycle=(
+            cycler("color", ["#000000", "#ff6347", "#1f77b4", "#2ca02c", "#d62728"])
+            + cycler("ls", ["-", (0, (0, 1)), (0, (0, 1)),(0, (0, 1)),(0, (0, 1))])
+        )
+        + cycler("marker", [" ", "v", "8", "p", "D"]),
+    )
     x = np.linspace(0, L1, N_ANALYTIQUE)
     plt.plot(x, sol_analytique_4_1(x), label="Solution analytique")
     for n in N_LIST_PLOT:
         param.n = n
         X, T = solve(param)
-        plt.plot(X, T, "o", label=f"n = {n}")
+        plt.plot(X, T, label=f"n = {n}")
     plt.xlabel("x (m)")
     plt.ylabel("T (°C)")
     plt.legend()
@@ -76,7 +90,7 @@ def ex4_2():
     for n in N_LIST_PLOT:
         param.n = n
         X, T = solve(param)
-        plt.plot(X, T, "o", label=f"n = {n}")
+        plt.plot(X, T, label=f"n = {n}")
     plt.xlabel("x (m)")
     plt.ylabel("T (°C)")
     plt.legend()
