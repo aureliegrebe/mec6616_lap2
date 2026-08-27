@@ -8,7 +8,7 @@ from cycler import cycler
 # figure parameters
 plt.rcParams.update({"font.size": 22})
 plt.rc("legend", fontsize=15)
-plt.rcParams["figure.figsize"] = [15, 8.5]
+plt.rcParams["figure.figsize"] = [8.5, 8.5]
 
 N_LIST = [5, 10, 20, 50, 100, 200, 500, 1000]
 N_LIST_PLOT = [5, 10, 20]
@@ -44,7 +44,7 @@ def ex4_1():
         "axes",
         prop_cycle=(
             cycler("color", ["#000000", "#ff6347", "#1f77b4", "#2ca02c", "#d62728"])
-            + cycler("ls", ["-", (0, (0, 1)), (0, (0, 1)),(0, (0, 1)),(0, (0, 1))])
+            + cycler("ls", ["-", " ", " ", " ", " "])
         )
         + cycler("marker", [" ", "v", "8", "p", "D"]),
     )
@@ -57,6 +57,7 @@ def ex4_1():
     plt.xlabel("x (m)")
     plt.ylabel("T (°C)")
     plt.legend()
+    plt.savefig("./figures/ex4_1.png")
 
     epsilon2 = []
     dx = []
@@ -72,6 +73,7 @@ def ex4_1():
     plt.xscale("log")
     plt.yscale("log")
     plt.grid()
+    plt.savefig("./figures/epsilon4_1.png")
 
 
 def ex4_2():
@@ -94,6 +96,7 @@ def ex4_2():
     plt.xlabel("x (m)")
     plt.ylabel("T (°C)")
     plt.legend()
+    plt.savefig("./figures/ex4_2.png")
 
     epsilon2 = []
     dx = []
@@ -109,6 +112,7 @@ def ex4_2():
     plt.grid()
     plt.xlabel("dx (m)")
     plt.ylabel("ΔT (°C)")
+    plt.savefig("./figures/epsilon4_2.png")
 
 def ex4_3():
     param = Settings()
@@ -130,6 +134,7 @@ def ex4_3():
     plt.xlabel('x (en m)')
     plt.ylabel('T (en °C)')    
     plt.title('Température le long de la barre')
+    plt.savefig("./figures/ex4_3.png")
 
 def main():
     ex4_1()
