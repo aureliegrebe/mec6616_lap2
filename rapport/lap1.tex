@@ -1,0 +1,72 @@
+\documentclass[12pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{datetime}
+\usepackage{subcaption}
+\usepackage[letterpaper, margin=1.9cm]{geometry}
+\usepackage{graphicx}
+\usepackage{epstopdf}
+\usepackage{siunitx}
+\graphicspath{ {../figures} }
+
+\title{MEC6616 --- LAP1}
+
+
+\author{Aurélie Grebe\\Noémie Herbinière}
+\newdate{duedate}{1}{09}{2026}
+\date{\displaydate{duedate}}
+
+\begin{document}
+\maketitle
+
+\section{Exemple 4.1}
+
+L'exemple 4.1 de Versteeg et al. est un problème stationaire de transfert de
+chaleur d'un bar isolé dont la température sur d'un bord est fixé
+à \SI{100}{\celsius} et l'autre à \SI{500}{\celsius}. Il s'agit donc des conditions
+aux limites de Dirichlet.
+
+
+\begin{figure}
+	\centering
+	\begin{subfigure}[t]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{ex4_1.png}
+		\caption{Résultats analytique et par volume finis de l'exemple 4.1}
+		\label{fig:ex4_1}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[t]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{epsilon4_1.png}
+		\caption{Résultats analytique et par volume finis de l'exemple 4.1}
+		\label{fig:ex4_1}
+	\end{subfigure}
+\end{figure}
+\section{Exemple 4.2}
+\begin{figure}
+	\centering
+	\begin{subfigure}[t]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{ex4_2.png}
+		\caption{Résultats analytique et par volume finis de l'exemple 4.1}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[t]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{epsilon4_2.png}
+		\caption{Résultats analytique et par volume finis de l'exemple 4.1}
+	\end{subfigure}
+\end{figure}
+\section{Exemple 4.3}
+\begin{figure}
+	\centering
+	\begin{subfigure}[t]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{ex4_3.png}
+		\caption{Résultats analytique et par volume finis de l'exemple 4.1}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[t]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{epsilon4_3.png}
+		\caption{Résultats analytique et par volume finis de l'exemple 4.1}
+	\end{subfigure}
+\end{figure}
+
+	
+\end{document}
