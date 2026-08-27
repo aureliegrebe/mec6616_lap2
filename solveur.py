@@ -2,17 +2,18 @@
 import numpy as np
 from dataclasses import dataclass, field
 
+
 THERM_COND = 1000 # (W / m K)
-AIRE = 10e-3 # m²
+AIRE = 1 # m²
 N = 5
-LENGTH = 0.5 # m
+LENGTH = 1 # m
 Q_U = 0 # W/m³
 Q_P = 0 # W/m³
 
 WEST_BC_TYPE = "DIRICHLET" # DIRIECHLET ou NEUMANN
 WEST_BC_VAL = 100 # C ou C/m
-EAST_BC_TYPE = "DIRICHLET" # 
-EAST_BC_VAL = 500 # C ou C/m
+EAST_BC_TYPE = "NEUMANN" # 
+EAST_BC_VAL = 0 # C ou C/m
 
 @dataclass
 class BC():
@@ -44,7 +45,7 @@ def set_inner_cells(S, A, dx, param: Settings):
     for i in range (1,param.n-1):
         a_w = a_e = param.therm_cond * param.aire / dx
         s_u = param.q_u * param.aire * dx
-        s_p = param.q_p
+        s_p = param.q_p * dx
         A[i, i-1] = -a_w # a_w
         A[i, i] = a_w + a_e - s_p # a_p
         A[i, i+1] = -a_e # a_e
@@ -61,10 +62,10 @@ def set_BC(S, A, dx, param: Settings, left=True):
     a_in = param.therm_cond * param.aire / dx
     if type == "DIRICHLET":
         s_u = param.q_u * param.aire * dx + 2 * param.therm_cond * param.aire * val / dx
-        s_p = param.q_p - 2 * param.therm_cond * param.aire / dx
+        s_p = param.q_p * dx - 2 * param.therm_cond * param.aire / dx
     elif type == "NEUMANN":
         s_u = param.q_u * param.aire * dx + param.aire * val
-        s_p = param.q_p
+        s_p = param.q_p * dx
     else:
         raise(TypeError("Invalid boundary type"))
 
@@ -90,7 +91,7 @@ def solve(settings: Settings):
 
     T = np.linalg.solve(A, S)
 
-    return X, T
+    return X, T, A
 
 def main():
     param = Settings()
@@ -103,4 +104,6 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
 

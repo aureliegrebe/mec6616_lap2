@@ -112,10 +112,11 @@ def ex4_2():
 
 def ex4_3():
     param = Settings()
-    param.length = 0.02
-    param.therm_cond = 0.5
+    param.length = 1
+    param.therm_cond = 1
     param.aire = 1
-    param.q_u = 1e6
+    param.q_u = 25*20 # n^2 * T_inf
+    param.q_p = -25 # -n^2
     param.left_BC = BC("DIRICHLET", 100)
     param.right_BC = BC("NEUMANN", 0)
     T = solve(param)
@@ -123,13 +124,17 @@ def ex4_3():
     plt.figure("ex 4.3")
     for n in N_LIST:
         param.n = n
-        X, T = solve(param)
+        X, T , A= solve(param)
         plt.plot(X, T, label=f"n = {n}")
     plt.legend()
+    plt.xlabel('x (en m)')
+    plt.ylabel('T (en °C)')    
+    plt.title('Température le long de la barre')
 
 def main():
     ex4_1()
     ex4_2()
+    ex4_3() # à changer en fonction de l'exemple
     plt.show()
 
 if __name__ == '__main__':
