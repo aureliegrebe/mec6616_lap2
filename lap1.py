@@ -8,7 +8,7 @@ from cycler import cycler
 # figure parameters
 plt.rcParams.update({"font.size": 22})
 plt.rc("legend", fontsize=15)
-plt.rcParams["figure.figsize"] = [8.5, 8.5]
+plt.rcParams["figure.figsize"] = [10.5, 8.5]
 
 N_LIST = [5, 10, 20, 50, 100, 200, 500, 1000]
 N_LIST_PLOT = [5, 10, 20]
@@ -73,6 +73,7 @@ def ex4_1():
     plt.xlabel("x (m)")
     plt.ylabel("T (°C)")
     plt.legend()
+    plt.tight_layout()
     plt.savefig("./figures/ex4_1.png")
 
     epsilon2 = []
@@ -89,6 +90,7 @@ def ex4_1():
     plt.grid()
     plt.xlabel("h (m)")
     plt.ylabel("ε (°C)")
+    plt.tight_layout()
     plt.savefig("./figures/epsilon4_1.png")
 
 
@@ -112,6 +114,7 @@ def ex4_2():
     plt.xlabel("x (m)")
     plt.ylabel("T (°C)")
     plt.legend()
+    plt.tight_layout()
     plt.savefig("./figures/ex4_2.png")
 
     epsilon2 = []
@@ -128,6 +131,7 @@ def ex4_2():
     plt.grid()
     plt.xlabel("h (m)")
     plt.ylabel("ε (°C)")
+    plt.tight_layout()
     plt.savefig("./figures/epsilon4_2.png")
 
     # calcul d'ordre de convergence:
@@ -155,6 +159,7 @@ def ex4_3():
     plt.xlabel("x (m)")
     plt.ylabel("T (°C)")
     plt.legend()
+    plt.tight_layout()
     plt.savefig("./figures/ex4_3.png")
     
     epsilon2 = []
@@ -171,6 +176,8 @@ def ex4_3():
     plt.grid()
     plt.xlabel("ln(h)")
     plt.ylabel("ln(ε)")
+    plt.tight_layout()
+    plt.savefig("./figures/epsilon4_3.png")
 
     # calcul d'ordre de convergence:
     p = float(np.log(epsilon2[-1]/epsilon2[-2])/np.log(N_LIST[-2]/N_LIST[-1]))
