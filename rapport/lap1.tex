@@ -9,6 +9,17 @@
 \usepackage{siunitx}
 \graphicspath{ {../figures} }
 
+\usepackage{csquotes}
+\usepackage[
+backend=biber,
+style=ieee,
+%style=verbose,
+citestyle=ieee,
+%sorting=nyt,
+%url=false
+]{biblatex}
+\bibliography{references}
+
 \title{MEC6616 --- LAP1}
 
 
@@ -19,7 +30,17 @@
 \begin{document}
 \maketitle
 
-\section{Exemple 4.1}
+\section{Introduction}
+
+Dans la presente œuvre, nous proposons une resolution de l'équation de diffusion
+de chaleur par volumes finis, tel que presenté par Versteeg et
+Malalasekera\,\cite{versteeg_introduction_2007}. Après un brève explication de
+la méthode de résolution, nous analyserons les résultats à l'aide de trois exemples.
+
+\section{Méthodologie}
+
+\section{Résultats}
+\subsection{Exemple 4.1}
 
 L'exemple 4.1 de Versteeg et al. est un problème stationaire de transfert de
 chaleur d'un bar isolé dont la température sur d'un bord est fixé à
@@ -54,7 +75,7 @@ donc pas de sens pour ce cas particulier.
 	\end{subfigure}
 \end{figure}
 
-\section{Exemple 4.2}
+\subsection{Exemple 4.2}
 
 
 \begin{figure}
@@ -69,7 +90,7 @@ donc pas de sens pour ce cas particulier.
 		\caption{Résultats analytique et par volume finis de l'exemple 4.1}
 	\end{subfigure}
 \end{figure}
-\section{Exemple 4.3}
+\subsection{Exemple 4.3}
 \begin{figure}
 	\centering
 	\begin{subfigure}[t]{0.45\textwidth}
@@ -82,6 +103,11 @@ donc pas de sens pour ce cas particulier.
 		\caption{Résultats analytique et par volume finis de l'exemple 4.1}
 	\end{subfigure}
 \end{figure}
+
+\printbibliography[
+	heading=bibintoc,
+	title={Références}
+]
 
 	
 \end{document}
