@@ -22,9 +22,20 @@
 \section{Exemple 4.1}
 
 L'exemple 4.1 de Versteeg et al. est un problème stationaire de transfert de
-chaleur d'un bar isolé dont la température sur d'un bord est fixé
-à \SI{100}{\celsius} et l'autre à \SI{500}{\celsius}. Il s'agit donc des conditions
-aux limites de Dirichlet.
+chaleur d'un bar isolé dont la température sur d'un bord est fixé à
+\SI{100}{\celsius} et l'autre à \SI{500}{\celsius}. Il s'agit donc des
+conditions aux limites de Dirichlet.
+
+Les solutions calculées à l'aide de la méthode par volume finis (FVM) sont
+comparé à la figure~\ref{fig:ex4_1} avec la solution analytique:
+\begin{equation}
+	T(x) = 800x + 100
+\end{equation}
+On peut voir que puisqu'il s'agit d'un solution linéaire et que notre schéma
+utilise un intépolation linéaire de la température, le résultat numérique est
+exacte dans le degré de précision accordé par la representation des nombres à
+point flotant (figure~\ref{fig:err4_1}). Calculer un ordre de convergence n'as
+donc pas de sens pour ce cas particulier.
 
 
 \begin{figure}
@@ -37,11 +48,15 @@ aux limites de Dirichlet.
 	\hfill
 	\begin{subfigure}[t]{0.45\textwidth}
 		\includegraphics[width=\textwidth]{epsilon4_1.png}
-		\caption{Résultats analytique et par volume finis de l'exemple 4.1}
-		\label{fig:ex4_1}
+		\caption{Erreur de solution selon la finesse de discrétization
+		spatiale.}
+		\label{fig:err4_1}
 	\end{subfigure}
 \end{figure}
+
 \section{Exemple 4.2}
+
+
 \begin{figure}
 	\centering
 	\begin{subfigure}[t]{0.45\textwidth}
