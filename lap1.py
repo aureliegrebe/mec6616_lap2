@@ -198,8 +198,8 @@ def ex4_3():
     plt.xscale("log")
     plt.yscale("log")
     plt.grid()
-    plt.xlabel("ln(h)")
-    plt.ylabel("ln(ε)")
+    plt.xlabel("h (m)")
+    plt.ylabel("ε (°C)")
     plt.tight_layout()
     plt.savefig("./figures/epsilon4_3.png")
 

@@ -92,6 +92,11 @@ l'équation 4.39 du livre de Versteeg) :
 \begin{equation}
 	T(x) = ((TB-TA)/L + q/2k * (L-x))x + TA
 \end{equation}
+On peut observer que les points obtenus par FVM suivent bien la courbe analytique
+et que, comme attendu, plus le nombre de points augmente, plus les résultats sont 
+proches du résultat analytique car on gagne en précision. Pour cet exemple, la 
+méthode FVM tend à surestimer la température quand pour un faible nombre de points.
+Dès 20 points de discrétisation, l'approximation est très proche de la solution analytique.
 
 Ajouter commentaire sur erreur 4.2 + ordre de convergence (figure~\ref{fig:err4_2}). 
 
@@ -123,6 +128,11 @@ l'équation 4.41 du livre de Versteeg) :
 \begin{equation}
 	T(x) = ((TB - Tinf) * (cosh(n(L - x))/cosh(nL))) + Tinf
 \end{equation}
+Tout comme l'exemple 4.2, on observe que les points obtenus par FVM suivent la 
+courbe analytique et gagnent en précision quand le nombre de points augmente. 
+Cette fois-ci, la méthode FVM a tendence à sous-estimer la température par rapport 
+à la solution analytique. Cependant, encore une fois, il suffit de 20 points de 
+discrétisation pour obtenir une approximation très proche de la solution analytique.
 
 Ajouter commentaire sur erreur 4.3 + ordre de convergence (figure~\ref{fig:err4_3}).
 
