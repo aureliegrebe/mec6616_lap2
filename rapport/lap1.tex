@@ -32,9 +32,9 @@ citestyle=ieee,
 
 \section{Introduction}
 
-Dans la presente œuvre, nous proposons une resolution de l'équation de diffusion
-de chaleur par volumes finis, tel que presenté par Versteeg et
-Malalasekera\,\cite{versteeg_introduction_2007}. Après un brève explication de
+Dans la presente œuvre, nous proposons une résolution de l'équation de diffusion
+de la chaleur par volumes finis, telle que presentée par Versteeg et
+Malalasekera\,\cite{versteeg_introduction_2007}. Après une brève explication de
 la méthode de résolution, nous analyserons les résultats à l'aide de trois exemples.
 
 \section{Méthodologie}
@@ -42,20 +42,20 @@ la méthode de résolution, nous analyserons les résultats à l'aide de trois e
 \section{Résultats}
 \subsection{Exemple 4.1}
 
-L'exemple 4.1 de Versteeg et al. est un problème stationaire de transfert de
-chaleur d'un bar isolé dont la température sur d'un bord est fixé à
+L'exemple 4.1 de Versteeg et al. est un problème stationnaire de transfert de
+chaleur d'une barre isolée dont la température sur d'un bord est fixée à
 \SI{100}{\celsius} et l'autre à \SI{500}{\celsius}. Il s'agit donc des
 conditions aux limites de Dirichlet.
 
-Les solutions calculées à l'aide de la méthode par volume finis (FVM) sont
-comparé à la figure~\ref{fig:ex4_1} avec la solution analytique:
+Les solutions calculées à l'aide de la méthode par volumes finis (FVM) sont
+comparées en figure~\ref{fig:ex4_1} avec la solution analytique :
 \begin{equation}
 	T(x) = 800x + 100
 \end{equation}
-On peut voir que puisqu'il s'agit d'un solution linéaire et que notre schéma
-utilise un intépolation linéaire de la température, le résultat numérique est
-exacte dans le degré de précision accordé par la representation des nombres à
-point flotant (figure~\ref{fig:err4_1}). Calculer un ordre de convergence n'as
+On peut voir que puisqu'il s'agit d'une solution linéaire et que notre schéma
+utilise une interpolation linéaire de la température, le résultat numérique est
+exact dans le degré de précision accordé par la representation des nombres à
+points flottants (figure~\ref{fig:err4_1}). Calculer un ordre de convergence n'as
 donc pas de sens pour ce cas particulier.
 
 
@@ -63,13 +63,13 @@ donc pas de sens pour ce cas particulier.
 	\centering
 	\begin{subfigure}[t]{0.45\textwidth}
 		\includegraphics[width=\textwidth]{ex4_1.png}
-		\caption{Résultats analytique et par volume finis de l'exemple 4.1}
+		\caption{Résultats analytiques et par volumes finis de l'exemple 4.1}
 		\label{fig:ex4_1}
 	\end{subfigure}
 	\hfill
 	\begin{subfigure}[t]{0.45\textwidth}
 		\includegraphics[width=\textwidth]{epsilon4_1.png}
-		\caption{Erreur de solution selon la finesse de discrétization
+		\caption{Erreur de solution selon la finesse de discrétisation
 		spatiale.}
 		\label{fig:err4_1}
 	\end{subfigure}
@@ -77,31 +77,65 @@ donc pas de sens pour ce cas particulier.
 
 \subsection{Exemple 4.2}
 
+L'exemple 4.2 de Versteeg et al. est un problème stationnaire de transfert de
+chaleur d'une plaque épaisse dont la température d'une face est fixée à
+\SI{100}{\celsius}, la face opposée à \SI{200}{\celsius} et où une source de 
+chaleur uniforme q de 1000 kW/m3 est appliquée. Les températures fixées sur les 
+faces sont donc les conditions de Dirichlet. On considère que les dimensions 
+dans les directions y et z sont si grandes que seul un gradient de température 
+dans la direction x est vraiment signifiant. Le problème peut donc être assimilé 
+à un problème 1D. 
+
+Les solutions calculées à l'aide de la méthode par volumes finis (FVM) sont
+comparées en figure~\ref{fig:ex4_2} avec la solution analytique (fournie par 
+l'équation 4.39 du livre de Versteeg) :
+\begin{equation}
+	T(x) = ((TB-TA)/L + q/2k * (L-x))x + TA
+\end{equation}
+
+Ajouter commentaire sur erreur 4.2 + ordre de convergence (figure~\ref{fig:err4_2}). 
 
 \begin{figure}
 	\centering
 	\begin{subfigure}[t]{0.45\textwidth}
 		\includegraphics[width=\textwidth]{ex4_2.png}
-		\caption{Résultats analytique et par volume finis de l'exemple 4.1}
+		\caption{Résultats analytiques et par volumes finis de l'exemple 4.2}
 	\end{subfigure}
 	\hfill
 	\begin{subfigure}[t]{0.45\textwidth}
 		\includegraphics[width=\textwidth]{epsilon4_2.png}
-		\caption{Résultats analytique et par volume finis de l'exemple 4.1}
+		\caption{Évolution de l'erreur en fonction du nombre de point N (ici h=1/N), à l'échelle logarythmique, de l'exemple 4.2}
 	\end{subfigure}
 \end{figure}
+
 \subsection{Exemple 4.3}
+
+L'exemple 4.3 de Versteeg et al. est un problème de refroidissement par convection 
+d'une barre à section cylindrique dans un environment à une température ambiante 
+de \SI{20}{\celsius} . Une extremité est fixée à \SI{100}{\celsius} (condition 
+de Dirichlet) tandis que l'autre est isolée (condition de Neumann où le
+transfert de température est nul, q"a = 0). La section de la barre étant 
+constante, le problème est considéré 1D.
+
+Les solutions calculées à l'aide de la méthode par volumes finis (FVM) sont
+comparées en figure~\ref{fig:ex4_3} avec la solution analytique (fournie par 
+l'équation 4.41 du livre de Versteeg) :
+\begin{equation}
+	T(x) = ((TB - Tinf) * (cosh(n(L - x))/cosh(nL))) + Tinf
+\end{equation}
+
+Ajouter commentaire sur erreur 4.3 + ordre de convergence (figure~\ref{fig:err4_3}).
+
 \begin{figure}
 	\centering
 	\begin{subfigure}[t]{0.45\textwidth}
 		\includegraphics[width=\textwidth]{ex4_3.png}
-		\caption{Résultats analytique et par volume finis de l'exemple 4.1}
+		\caption{Résultats analytique et par volume finis de l'exemple 4.3}
 	\end{subfigure}
 	\hfill
 	\begin{subfigure}[t]{0.45\textwidth}
 		\includegraphics[width=\textwidth]{epsilon4_3.png}
-		\caption{Résultats analytique et par volume finis de l'exemple 4.1}
-	\end{subfigure}
+		\caption{Évolution de l'erreur en fonction du nombre de point N (ici h=1/N), à l'échelle logarythmique, de l'exemple 4.3}
 \end{figure}
 
 \printbibliography[
