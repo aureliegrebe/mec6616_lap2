@@ -222,6 +222,13 @@ l'équation 4.41 du livre de Versteeg) :
 	T(x) = (T_B - T_\infty) \frac{\cosh(n(L - x))}{\cosh(nL)} + T_\infty
 \end{equation}
 
+Avec $n^2 = \frac{(hP)}{ka} = 25 m^{-2}$. 
+
+Les équations étant exprimées en fonction de n plutot que k et q, les valeurs de 
+k et A ont été fixées à l'unité afin d'accorder la formulation utilisée dans le 
+solveur et celle utilisée dans l'exemple 4.3. Les $Q_U$, $Q_P$ ont été définis grâce 
+à la table fournie dans le livre ($Q_U = n^2 * t=T_\infty$; $Q_P = -n^2$).
+
 Tout comme l'exemple 4.2, on observe que les points obtenus par FVM suivent la 
 courbe analytique et gagnent en précision quand le nombre de points augmente. 
 Cette fois-ci, la méthode FVM a tendence à sous-estimer la température par rapport 
