@@ -11,6 +11,7 @@
 \usepackage{derivative}
 \usepackage{booktabs}
 \usepackage[flushleft]{threeparttable}
+\usepackage{amsmath}
 
 \usepackage{csquotes}
 \usepackage[
@@ -98,9 +99,32 @@ tableau \ref{tab:coeffs}.
 		$a_e$ et $a_w$
 	\end{tablenotes}
 	\end{threeparttable}
-	
 \end{table}
 
+Pour résoudre cette système de $N$ équations, on formule une équation matricielle de
+la forme $Ab = S$:
+
+\begin{equation}
+	\begin{bmatrix}
+		-a_{p1} & a_{e1} & 0 & \dots & 0 & 0 \\
+		a_{w1} & - a_{p2} & a_{e2} & \dots & 0 & 0 \\
+		\vdots & \vdots & \vdots & \ddots & \vdots & \vdots \\
+		0 & 0 & 0 & \dots & a_{wN} & -a_{pN}
+	\end{bmatrix}
+	\begin{bmatrix}
+		T_1 \\
+		T_2 \\
+		\vdots \\
+		T_N 
+	\end{bmatrix}
+	=
+	\begin{bmatrix}
+		S_1 \\
+		S_2 \\
+		\vdots \\
+		S_N 
+	\end{bmatrix}
+\end{equation}
 
 
 \section{Résultats}
@@ -163,7 +187,9 @@ proches du résultat analytique car on gagne en précision. Pour cet exemple, la
 méthode FVM tend à surestimer la température quand pour un faible nombre de points.
 Dès 20 points de discrétisation, l'approximation est très proche de la solution analytique.
 
-% TODO: Ajouter commentaire sur erreur 4.2 + ordre de convergence (figure~\ref{fig:err4_2}). 
+La figure~\ref{fig:err4_2} montre l'erreur RMS en fonction de la taille de
+cellule $h$. Affiché sur une échelle logarithmique, on observe une pente de
+\num{2.00}, indiquant un convergence observé d'ordre 2.
 
 \begin{figure}
 	\centering
@@ -209,7 +235,9 @@ Cette fois-ci, la méthode FVM a tendence à sous-estimer la température par ra
 à la solution analytique. Cependant, encore une fois, il suffit de 20 points de 
 discrétisation pour obtenir une approximation très proche de la solution analytique.
 
-% TODO: Ajouter commentaire sur erreur 4.3 + ordre de convergence (figure~\ref{fig:err4_3}).
+La figure~\ref{fig:err4_3} montre l'erreur RMS en fonction de la taille de
+cellule $h$. Affiché sur une échelle logarithmique, on observe une pente de
+\num{2.00}, indiquant un convergence observé d'ordre 2.
 
 \begin{figure}
 	\centering
