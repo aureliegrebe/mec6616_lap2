@@ -8,6 +8,9 @@
 \usepackage{epstopdf}
 \usepackage{siunitx}
 \graphicspath{ {../figures} }
+\usepackage{derivative}
+\usepackage{booktabs}
+\usepackage[flushleft]{threeparttable}
 
 \usepackage{csquotes}
 \usepackage[
@@ -38,6 +41,67 @@ Malalasekera\,\cite{versteeg_introduction_2007}. Après une brève explication d
 la méthode de résolution, nous analyserons les résultats à l'aide de trois exemples.
 
 \section{Méthodologie}
+
+La méthode utilisé pour implémenter ce solveur provient directement du chapitre
+4 de Versteeg et Malalasekera\,\cite{versteeg_introduction_2007}. Le solveur
+que nous présentons ici résout l'équation de transmission de chaleur en 1-D:
+\begin{equation}
+	\odv{}{x}\left( k\odv{T}{x}\right) + S = 0
+\end{equation}
+avec $k$ la conductivité thermique et $S$ la terme source.
+
+On appliquant une différence centrale pour évaluler des termes diffusives et
+présumant $k$ constante sur tout le domaine du problème, on arrive avec
+une équation de forme suivant pour chacun des cellules de notre problème:
+\begin{equation}
+	a_p T_p = a_w T_w + a_e T_e + S_u
+\end{equation}
+Le sous-script $_p$ indique un valuer appartenant au cellule même, tandis que
+les sous-scripts $_e$ et $_w$ indiquent les cellules à l'est et à l'ouest
+respectivement. $S_u$ est la terme source uniforme, c'est à dire qui ne dépend
+pas de la température. Pour les cellules à l'intérieurs, $a_w = a_e =
+\frac{kA}{\delta x}$, et $a_p = a_w + a_e - s_p$. Si on prend des valeurs 
+de sources$q_u$ et $q_p$ avec les unités 
+\footnote{On choisi ces unités car d'habitude
+la partie uniforme est du à une géneration de chaleur volumique, e.g.
+chauffage resistive, tandis que la partie proportionel provient d'un transfert
+de chaleur avec l'environment qui peut être exprimé en unités linéares dans un 
+cas 1-D.}
+\unit{\watt\per\m\cubed} et \unit{\watt\per\m\per\celsius}, on obtient les
+termes sources uniforme
+$S_u = q_uA/\delta x$ et proportionel $S_p = q_p \delta x$.
+
+Pour les cellules en frontière, leur traitement dépend du type de condition à 
+la frontière imposé. Pour des frontières de Dirichlet où on impose un valeur
+fixe, on ajoute à $S_u$ la terme $2kAT_f/\delta x$ et à $S_p$ la terme
+$2kA/\delta x$, où $T_f$ est la température à cette frontière. À une frontière
+de type Neumann où on impose plutôt le gradient de température, on ne fait
+qu'ajouter à $S_u$ la terme $T'_fA$. Un résumé de tous ces termes se trouve au
+tableau \ref{tab:coeffs}.
+
+\begin{table}
+	\centering
+	\begin{threeparttable}
+	\caption{Coefficients pour l'équation de chaleur discrétisé}
+	\label{tab:coeffs}
+	\begin{tabular}{@{}rccccc@{}}
+		\toprule
+		& $a_w$ & $a_e$ & $S_u$ & $S_p$ & $a_p$ \\\midrule
+		Intérieur & $\frac{kA}{\delta x}$ & $\frac{kA}{\delta x}$ & $q_uA\delta x$ & $q_p \delta x$ & $a_w + a_e - S_p$ \\
+		Direchlet &  & $\frac{kA}{\delta x}$ & $q_uA\delta x + \frac{dkAT_f}{\delta x} $ 
+			  & $q_p \delta x + \frac{dkA}{\delta x}$ & $a_w + a_e - S_p$ \\
+		Neumann &  & $\frac{kA}{\delta x}$ & $q_uA\delta x + T'_fA$ & $q_p \delta x$ & $a_w + a_e - S_p$ \\\bottomrule
+	\end{tabular}
+	\begin{tablenotes}
+		\textdagger Seules les conditions de frontières à gauche sont
+		montrées. Pour celles à droite, il faut simplement échanger
+		$a_e$ et $a_w$
+	\end{tablenotes}
+	\end{threeparttable}
+	
+\end{table}
+
+
 
 \section{Résultats}
 \subsection{Exemple 4.1}
