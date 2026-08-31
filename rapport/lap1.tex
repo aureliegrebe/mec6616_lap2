@@ -11,6 +11,7 @@
 \usepackage{derivative}
 \usepackage{booktabs}
 \usepackage[flushleft]{threeparttable}
+\usepackage{amsmath}
 
 \usepackage{csquotes}
 \usepackage[
@@ -98,9 +99,32 @@ tableau \ref{tab:coeffs}.
 		$a_e$ et $a_w$
 	\end{tablenotes}
 	\end{threeparttable}
-	
 \end{table}
 
+Pour résoudre cette système de $N$ équations, on formule une équation matricielle de
+la forme $Ab = S$:
+
+\begin{equation}
+	\begin{bmatrix}
+		-a_{p1} & a_{e1} & 0 & \dots & 0 & 0 \\
+		a_{w1} & - a_{p2} & a_{e2} & \dots & 0 & 0 \\
+		\vdots & \vdots & \vdots & \ddots & \vdots & \vdots \\
+		0 & 0 & 0 & \dots & a_{wN} & -a_{pN}
+	\end{bmatrix}
+	\begin{bmatrix}
+		T_1 \\
+		T_2 \\
+		\vdots \\
+		T_N 
+	\end{bmatrix}
+	=
+	\begin{bmatrix}
+		S_1 \\
+		S_2 \\
+		\vdots \\
+		S_N 
+	\end{bmatrix}
+\end{equation}
 
 
 \section{Résultats}

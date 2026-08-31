@@ -154,7 +154,7 @@ def ex4_2():
 
     # Calcul d'ordre de convergence:
     p = float(np.log(epsilon2[-1]/epsilon2[-2])/np.log(N_LIST[-2]/N_LIST[-1]))
-    print(f"Ordre de convergence pour ex 4.2: {p:.3}")
+    print(f"Ordre de convergence pour ex 4.2: {p:.5f}")
 
 #Exemple 4.3
 
@@ -205,7 +205,7 @@ def ex4_3():
 
     # Calcul d'ordre de convergence:
     p = float(np.log(epsilon2[-1]/epsilon2[-2])/np.log(N_LIST[-2]/N_LIST[-1]))
-    print(f"Ordre de convergend pour ex 4.3: {p:.3}")
+    print(f"Ordre de convergend pour ex 4.3: {p:.5f}")
 
 
 def main():
