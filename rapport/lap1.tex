@@ -55,7 +55,7 @@ comparées en figure~\ref{fig:ex4_1} avec la solution analytique :
 On peut voir que puisqu'il s'agit d'une solution linéaire et que notre schéma
 utilise une interpolation linéaire de la température, le résultat numérique est
 exact dans le degré de précision accordé par la representation des nombres à
-points flottants (figure~\ref{fig:err4_1}). Calculer un ordre de convergence n'as
+point une intnts (figure~\ref{fig:err4_1}). Calculer un ordre de convergence n'as
 donc pas de sens pour ce cas particulier.
 
 
@@ -105,11 +105,13 @@ Ajouter commentaire sur erreur 4.2 + ordre de convergence (figure~\ref{fig:err4_
 	\begin{subfigure}[t]{0.45\textwidth}
 		\includegraphics[width=\textwidth]{ex4_2.png}
 		\caption{Résultats analytiques et par volumes finis de l'exemple 4.2}
+		\label{fig:ex4_2}
 	\end{subfigure}
 	\hfill
 	\begin{subfigure}[t]{0.45\textwidth}
 		\includegraphics[width=\textwidth]{epsilon4_2.png}
 		\caption{Évolution de l'erreur en fonction du nombre de point N (ici h=1/N), à l'échelle logarythmique, de l'exemple 4.2}
+		\label{fig:err4_2}
 	\end{subfigure}
 \end{figure}
 
@@ -141,17 +143,19 @@ Ajouter commentaire sur erreur 4.3 + ordre de convergence (figure~\ref{fig:err4_
 	\begin{subfigure}[t]{0.45\textwidth}
 		\includegraphics[width=\textwidth]{ex4_3.png}
 		\caption{Résultats analytique et par volume finis de l'exemple 4.3}
+		\label{fig:ex4_3}
 	\end{subfigure}
 	\hfill
 	\begin{subfigure}[t]{0.45\textwidth}
 		\includegraphics[width=\textwidth]{epsilon4_3.png}
 		\caption{Évolution de l'erreur en fonction du nombre de point N (ici h=1/N), à l'échelle logarythmique, de l'exemple 4.3}
+		\label{fig:err4_3}
+	\end{subfigure}
 \end{figure}
 
 \printbibliography[
 	heading=bibintoc,
 	title={Références}
 ]
-
 	
 \end{document}
