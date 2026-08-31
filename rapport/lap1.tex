@@ -55,7 +55,7 @@ comparées en figure~\ref{fig:ex4_1} avec la solution analytique :
 On peut voir que puisqu'il s'agit d'une solution linéaire et que notre schéma
 utilise une interpolation linéaire de la température, le résultat numérique est
 exact dans le degré de précision accordé par la representation des nombres à
-point une intnts (figure~\ref{fig:err4_1}). Calculer un ordre de convergence n'as
+point flotant (figure~\ref{fig:err4_1}). Calculer un ordre de convergence n'as
 donc pas de sens pour ce cas particulier.
 
 
@@ -78,27 +78,28 @@ donc pas de sens pour ce cas particulier.
 \subsection{Exemple 4.2}
 
 L'exemple 4.2 de Versteeg et al. est un problème stationnaire de transfert de
-chaleur d'une plaque épaisse dont la température d'une face est fixée à
-\SI{100}{\celsius}, la face opposée à \SI{200}{\celsius} et où une source de 
-chaleur uniforme q de 1000 kW/m3 est appliquée. Les températures fixées sur les 
-faces sont donc les conditions de Dirichlet. On considère que les dimensions 
-dans les directions y et z sont si grandes que seul un gradient de température 
-dans la direction x est vraiment signifiant. Le problème peut donc être assimilé 
-à un problème 1D. 
+chaleur d'une plaque épaisse dont la température d'une face est fixée à $T_A =
+\SI{100}{\celsius}$, la face opposée à $T_B = \SI{200}{\celsius}$ et où une
+source de chaleur uniforme $q = \SI{1000}{\kilo\watt\per\m\cubed}$ est
+appliquée. Les températures fixées sur les faces sont donc les conditions de
+Dirichlet. On considère que les dimensions dans les directions y et z sont si
+grandes que seul un gradient de température dans la direction x est vraiment
+signifiant. Le problème peut donc être assimilé à un problème 1D. 
 
 Les solutions calculées à l'aide de la méthode par volumes finis (FVM) sont
 comparées en figure~\ref{fig:ex4_2} avec la solution analytique (fournie par 
 l'équation 4.39 du livre de Versteeg) :
 \begin{equation}
-	T(x) = ((TB-TA)/L + q/2k * (L-x))x + TA
+	T(x) = \left(\frac{T_B-T_A}{L} + \frac{q}{2k} (L-x)\right)x + T_A
 \end{equation}
+
 On peut observer que les points obtenus par FVM suivent bien la courbe analytique
 et que, comme attendu, plus le nombre de points augmente, plus les résultats sont 
 proches du résultat analytique car on gagne en précision. Pour cet exemple, la 
 méthode FVM tend à surestimer la température quand pour un faible nombre de points.
 Dès 20 points de discrétisation, l'approximation est très proche de la solution analytique.
 
-Ajouter commentaire sur erreur 4.2 + ordre de convergence (figure~\ref{fig:err4_2}). 
+% TODO: Ajouter commentaire sur erreur 4.2 + ordre de convergence (figure~\ref{fig:err4_2}). 
 
 \begin{figure}
 	\centering
@@ -119,24 +120,25 @@ Ajouter commentaire sur erreur 4.2 + ordre de convergence (figure~\ref{fig:err4_
 
 L'exemple 4.3 de Versteeg et al. est un problème de refroidissement par convection 
 d'une barre à section cylindrique dans un environment à une température ambiante 
-de \SI{20}{\celsius} . Une extremité est fixée à \SI{100}{\celsius} (condition 
+de $T_\infty = \SI{20}{\celsius}$ . Une extremité est fixée à $T_B = \SI{100}{\celsius}$ (condition 
 de Dirichlet) tandis que l'autre est isolée (condition de Neumann où le
-transfert de température est nul, q"a = 0). La section de la barre étant 
+transfert de température est nul, $q"_a = 0$). La section de la barre étant 
 constante, le problème est considéré 1D.
 
 Les solutions calculées à l'aide de la méthode par volumes finis (FVM) sont
 comparées en figure~\ref{fig:ex4_3} avec la solution analytique (fournie par 
 l'équation 4.41 du livre de Versteeg) :
 \begin{equation}
-	T(x) = ((TB - Tinf) * (cosh(n(L - x))/cosh(nL))) + Tinf
+	T(x) = (T_B - T_\infty) \frac{\cosh(n(L - x))}{\cosh(nL)} + T_\infty
 \end{equation}
+
 Tout comme l'exemple 4.2, on observe que les points obtenus par FVM suivent la 
 courbe analytique et gagnent en précision quand le nombre de points augmente. 
 Cette fois-ci, la méthode FVM a tendence à sous-estimer la température par rapport 
 à la solution analytique. Cependant, encore une fois, il suffit de 20 points de 
 discrétisation pour obtenir une approximation très proche de la solution analytique.
 
-Ajouter commentaire sur erreur 4.3 + ordre de convergence (figure~\ref{fig:err4_3}).
+% TODO: Ajouter commentaire sur erreur 4.3 + ordre de convergence (figure~\ref{fig:err4_3}).
 
 \begin{figure}
 	\centering
