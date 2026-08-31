@@ -7,6 +7,7 @@
 \usepackage{graphicx}
 \usepackage{epstopdf}
 \usepackage{siunitx}
+\sisetup{output-decimal-marker = {,}}
 \graphicspath{ {../figures} }
 \usepackage{derivative}
 \usepackage{booktabs}
@@ -94,7 +95,7 @@ tableau \ref{tab:coeffs}.
 		Neumann &  & $\frac{kA}{\delta x}$ & $q_uA\delta x + T'_fA$ & $q_p \delta x$ & $a_w + a_e - S_p$ \\\bottomrule
 	\end{tabular}
 	\begin{tablenotes}
-		\textdagger Seules les conditions de frontières à gauche sont
+		\item\textdagger Seules les conditions de frontières à gauche sont
 		montrées. Pour celles à droite, il faut simplement échanger
 		$a_e$ et $a_w$
 	\end{tablenotes}
