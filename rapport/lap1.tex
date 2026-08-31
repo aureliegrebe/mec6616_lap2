@@ -28,7 +28,7 @@ citestyle=ieee,
 
 
 \author{Aurélie Grebe\\Noémie Herbinière}
-\newdate{duedate}{1}{09}{2026}
+\newdate{duedate}{31}{08}{2026}
 \date{\displaydate{duedate}}
 
 \begin{document}
@@ -37,7 +37,7 @@ citestyle=ieee,
 \section{Introduction}
 
 Dans la présente œuvre, nous proposons une résolution de l'équation de diffusion
-de la chaleur par volumes finis, telle que presentées par Versteeg et
+de la chaleur par volumes finis telle que présentée par Versteeg et
 Malalasekera\,\cite{versteeg_introduction_2007}. Après une brève explication de
 la méthode de résolution, nous analyserons les résultats à l'aide de trois exemples.
 
@@ -60,16 +60,16 @@ une équation de forme suivante pour chacune des cellules de notre problème:
 Le sous-script $_p$ indique une valeur appartenant à la cellule même, tandis que
 les sous-scripts $_e$ et $_w$ indiquent les cellules à l'est et à l'ouest
 respectivement. $S_u$ est le terme source uniforme, c'est à dire qui ne dépend
-pas de la température. Pour les cellules intérieurs, $a_w = a_e =
+pas de la température. Pour les cellules intérieures, $a_w = a_e =
 \frac{kA}{\delta x}$, et $a_p = a_w + a_e - s_p$. Si on prend des valeurs 
 de sources$q_u$ et $q_p$ avec les unités 
-\footnote{On choisi ces unités, car d'habitude
+\footnote{On choisit ces unités, car d'habitude
 la partie uniforme est due à une génération de chaleur volumique, p. ex.
-chauffage résistif, tandis que la partie proportionelle provient d'un transfert
+chauffage résistif, tandis que la partie proportionnelle provient d'un transfert
 de chaleur avec l'environnement qui peut être exprimé en unités linéaires dans un 
 cas 1-D.}
 \unit{\watt\per\m\cubed} et \unit{\watt\per\m\per\celsius}, on obtient les
-termes sources uniforme
+termes sources uniformes
 $S_u = q_uA/\delta x$ et proportionnel $S_p = q_p \delta x$.
 
 Pour les cellules en frontière, leur traitement dépend du type de condition à 
@@ -119,10 +119,10 @@ la forme $Ab = S$:
 	\end{bmatrix}
 	=
 	\begin{bmatrix}
-		S_1 \\
-		S_2 \\
+		S_{u1} \\
+		S_{u2} \\
 		\vdots \\
-		S_N 
+		S_{uN} 
 	\end{bmatrix}
 \end{equation}
 
@@ -130,7 +130,7 @@ la forme $Ab = S$:
 \section{Résultats}
 \subsection{Exemple 4.1}
 
-L'exemple 4.1 de Versteeg et al. est un problème stationnaire de transfert de
+L'exemple 4.1 de Versteeg et Malalasekera est un problème stationnaire de transfert de
 chaleur d'une barre isolée dont la température sur un bord est fixée à
 \SI{100}{\celsius} et l'autre à \SI{500}{\celsius}. Il s'agit donc des
 conditions aux limites de Dirichlet.
@@ -201,7 +201,7 @@ cellule $h$. Affiché sur une échelle logarithmique, on observe une pente de
 	\hfill
 	\begin{subfigure}[t]{0.45\textwidth}
 		\includegraphics[width=\textwidth]{epsilon4_2.png}
-		\caption{Évolution de l'erreur en fonction du nombre de point N (ici h=1/N), à l'échelle logarithmique, de l'exemple 4.2}
+		\caption{Évolution de l'erreur en fonction du nombre de points $N$ (ici h=1/N), à l'échelle logarithmique, de l'exemple 4.2}
 		\label{fig:err4_2}
 	\end{subfigure}
 \end{figure}
@@ -209,8 +209,8 @@ cellule $h$. Affiché sur une échelle logarithmique, on observe une pente de
 \subsection{Exemple 4.3}
 
 L'exemple 4.3 de Versteeg et al. est un problème de refroidissement par convection 
-d'une barre à section cylindrique dans un environment à une température ambiante 
-de $T_\infty = \SI{20}{\celsius}$ . Une extremité est fixée à $T_B = \SI{100}{\celsius}$ (condition 
+d'une barre à section cylindrique dans un environnement à une température ambiante 
+de $T_\infty = \SI{20}{\celsius}$ . Une extrémité est fixée à $T_B = \SI{100}{\celsius}$ (condition 
 de Dirichlet) tandis que l'autre est isolée (condition de Neumann où le
 transfert de température est nul, $q"_a = 0$). La section de la barre étant 
 constante, le problème est considéré 1D.
@@ -224,14 +224,14 @@ l'équation 4.41 du livre de Versteeg) :
 
 Avec $n^2 = \frac{(hP)}{ka} = 25 m^{-2}$. 
 
-Les équations étant exprimées en fonction de n plutot que k et q, les valeurs de 
+Les équations étant exprimées en fonction de n plutôt que k et q, les valeurs de 
 k et A ont été fixées à l'unité afin d'accorder la formulation utilisée dans le 
 solveur et celle utilisée dans l'exemple 4.3. Les $Q_U$, $Q_P$ ont été définis grâce 
 à la table fournie dans le livre ($Q_U = n^2 * t=T_\infty$; $Q_P = -n^2$).
 
 Tout comme l'exemple 4.2, on observe que les points obtenus par FVM suivent la 
 courbe analytique et gagnent en précision quand le nombre de points augmente. 
-Cette fois-ci, la méthode FVM a tendence à sous-estimer la température par rapport 
+Cette fois-ci, la méthode FVM a tendance à sous-estimer la température par rapport 
 à la solution analytique. Cependant, encore une fois, il suffit de 20 points de 
 discrétisation pour obtenir une approximation très proche de la solution analytique.
 
@@ -249,7 +249,7 @@ cellule $h$. Affiché sur une échelle logarithmique, on observe une pente de
 	\hfill
 	\begin{subfigure}[t]{0.45\textwidth}
 		\includegraphics[width=\textwidth]{epsilon4_3.png}
-		\caption{Évolution de l'erreur en fonction du nombre de point N (ici h=1/N), à l'échelle logarithmique, de l'exemple 4.3}
+		\caption{Évolution de l'erreur en fonction du nombre de points $N$ (ici h=1/N), à l'échelle logarithmique, de l'exemple 4.3}
 		\label{fig:err4_3}
 	\end{subfigure}
 \end{figure}
