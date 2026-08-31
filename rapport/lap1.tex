@@ -36,48 +36,48 @@ citestyle=ieee,
 
 \section{Introduction}
 
-Dans la presente œuvre, nous proposons une résolution de l'équation de diffusion
-de la chaleur par volumes finis, telle que presentée par Versteeg et
+Dans la présente œuvre, nous proposons une résolution de l'équation de diffusion
+de la chaleur par volumes finis, telle que presentées par Versteeg et
 Malalasekera\,\cite{versteeg_introduction_2007}. Après une brève explication de
 la méthode de résolution, nous analyserons les résultats à l'aide de trois exemples.
 
 \section{Méthodologie}
 
-La méthode utilisé pour implémenter ce solveur provient directement du chapitre
+La méthode utilisée pour implémenter ce solveur provient directement du chapitre
 4 de Versteeg et Malalasekera\,\cite{versteeg_introduction_2007}. Le solveur
 que nous présentons ici résout l'équation de transmission de chaleur en 1-D:
 \begin{equation}
 	\odv{}{x}\left( k\odv{T}{x}\right) + S = 0
 \end{equation}
-avec $k$ la conductivité thermique et $S$ la terme source.
+avec $k$ la conductivité thermique et $S$ le terme source.
 
-On appliquant une différence centrale pour évaluler des termes diffusives et
-présumant $k$ constante sur tout le domaine du problème, on arrive avec
-une équation de forme suivant pour chacun des cellules de notre problème:
+On appliquant une différence centrale pour évaluer des termes diffusifs et
+présumant $k$ constant sur tout le domaine du problème, on arrive avec
+une équation de forme suivante pour chacune des cellules de notre problème:
 \begin{equation}
 	a_p T_p = a_w T_w + a_e T_e + S_u
 \end{equation}
-Le sous-script $_p$ indique un valuer appartenant au cellule même, tandis que
+Le sous-script $_p$ indique une valeur appartenant à la cellule même, tandis que
 les sous-scripts $_e$ et $_w$ indiquent les cellules à l'est et à l'ouest
-respectivement. $S_u$ est la terme source uniforme, c'est à dire qui ne dépend
-pas de la température. Pour les cellules à l'intérieurs, $a_w = a_e =
+respectivement. $S_u$ est le terme source uniforme, c'est à dire qui ne dépend
+pas de la température. Pour les cellules intérieurs, $a_w = a_e =
 \frac{kA}{\delta x}$, et $a_p = a_w + a_e - s_p$. Si on prend des valeurs 
 de sources$q_u$ et $q_p$ avec les unités 
-\footnote{On choisi ces unités car d'habitude
-la partie uniforme est du à une géneration de chaleur volumique, e.g.
-chauffage resistive, tandis que la partie proportionel provient d'un transfert
-de chaleur avec l'environment qui peut être exprimé en unités linéares dans un 
+\footnote{On choisi ces unités, car d'habitude
+la partie uniforme est due à une génération de chaleur volumique, p. ex.
+chauffage résistif, tandis que la partie proportionelle provient d'un transfert
+de chaleur avec l'environnement qui peut être exprimé en unités linéaires dans un 
 cas 1-D.}
 \unit{\watt\per\m\cubed} et \unit{\watt\per\m\per\celsius}, on obtient les
 termes sources uniforme
-$S_u = q_uA/\delta x$ et proportionel $S_p = q_p \delta x$.
+$S_u = q_uA/\delta x$ et proportionnel $S_p = q_p \delta x$.
 
 Pour les cellules en frontière, leur traitement dépend du type de condition à 
-la frontière imposé. Pour des frontières de Dirichlet où on impose un valeur
-fixe, on ajoute à $S_u$ la terme $2kAT_f/\delta x$ et à $S_p$ la terme
+la frontière imposé. Pour des frontières de Dirichlet où on impose une valeur
+fixe, on ajoute à $S_u$ le terme $2kAT_f/\delta x$ et à $S_p$ le terme
 $2kA/\delta x$, où $T_f$ est la température à cette frontière. À une frontière
 de type Neumann où on impose plutôt le gradient de température, on ne fait
-qu'ajouter à $S_u$ la terme $T'_fA$. Un résumé de tous ces termes se trouve au
+qu'ajouter à $S_u$ le terme $T'_fA$. Un résumé de tous ces termes se trouve au
 tableau \ref{tab:coeffs}.
 
 \begin{table}
@@ -101,7 +101,7 @@ tableau \ref{tab:coeffs}.
 	\end{threeparttable}
 \end{table}
 
-Pour résoudre cette système de $N$ équations, on formule une équation matricielle de
+Pour résoudre ce système de $N$ équations, on formule une équation matricielle de
 la forme $Ab = S$:
 
 \begin{equation}
@@ -131,7 +131,7 @@ la forme $Ab = S$:
 \subsection{Exemple 4.1}
 
 L'exemple 4.1 de Versteeg et al. est un problème stationnaire de transfert de
-chaleur d'une barre isolée dont la température sur d'un bord est fixée à
+chaleur d'une barre isolée dont la température sur un bord est fixée à
 \SI{100}{\celsius} et l'autre à \SI{500}{\celsius}. Il s'agit donc des
 conditions aux limites de Dirichlet.
 
@@ -142,8 +142,8 @@ comparées en figure~\ref{fig:ex4_1} avec la solution analytique :
 \end{equation}
 On peut voir que puisqu'il s'agit d'une solution linéaire et que notre schéma
 utilise une interpolation linéaire de la température, le résultat numérique est
-exact dans le degré de précision accordé par la representation des nombres à
-point flotant (figure~\ref{fig:err4_1}). Calculer un ordre de convergence n'as
+exact dans le degré de précision accordé par la représentation des nombres à
+point flottant (figure~\ref{fig:err4_1}). Calculer un ordre de convergence n'a
 donc pas de sens pour ce cas particulier.
 
 
@@ -183,13 +183,13 @@ l'équation 4.39 du livre de Versteeg) :
 
 On peut observer que les points obtenus par FVM suivent bien la courbe analytique
 et que, comme attendu, plus le nombre de points augmente, plus les résultats sont 
-proches du résultat analytique car on gagne en précision. Pour cet exemple, la 
+proches du résultat analytique, car on gagne en précision. Pour cet exemple, la 
 méthode FVM tend à surestimer la température quand pour un faible nombre de points.
 Dès 20 points de discrétisation, l'approximation est très proche de la solution analytique.
 
 La figure~\ref{fig:err4_2} montre l'erreur RMS en fonction de la taille de
 cellule $h$. Affiché sur une échelle logarithmique, on observe une pente de
-\num{2.00}, indiquant un convergence observé d'ordre 2.
+\num{2.00}, indiquant une convergence observée d'ordre 2.
 
 \begin{figure}
 	\centering
@@ -201,7 +201,7 @@ cellule $h$. Affiché sur une échelle logarithmique, on observe une pente de
 	\hfill
 	\begin{subfigure}[t]{0.45\textwidth}
 		\includegraphics[width=\textwidth]{epsilon4_2.png}
-		\caption{Évolution de l'erreur en fonction du nombre de point N (ici h=1/N), à l'échelle logarythmique, de l'exemple 4.2}
+		\caption{Évolution de l'erreur en fonction du nombre de point N (ici h=1/N), à l'échelle logarithmique, de l'exemple 4.2}
 		\label{fig:err4_2}
 	\end{subfigure}
 \end{figure}
@@ -237,7 +237,7 @@ discrétisation pour obtenir une approximation très proche de la solution analy
 
 La figure~\ref{fig:err4_3} montre l'erreur RMS en fonction de la taille de
 cellule $h$. Affiché sur une échelle logarithmique, on observe une pente de
-\num{2.00}, indiquant un convergence observé d'ordre 2.
+\num{2.00}, indiquant une convergence observée d'ordre 2.
 
 \begin{figure}
 	\centering
@@ -249,7 +249,7 @@ cellule $h$. Affiché sur une échelle logarithmique, on observe une pente de
 	\hfill
 	\begin{subfigure}[t]{0.45\textwidth}
 		\includegraphics[width=\textwidth]{epsilon4_3.png}
-		\caption{Évolution de l'erreur en fonction du nombre de point N (ici h=1/N), à l'échelle logarythmique, de l'exemple 4.3}
+		\caption{Évolution de l'erreur en fonction du nombre de point N (ici h=1/N), à l'échelle logarithmique, de l'exemple 4.3}
 		\label{fig:err4_3}
 	\end{subfigure}
 \end{figure}
