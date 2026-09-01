@@ -30,7 +30,8 @@ class Settings():
     q_p: float = Q_P
     left_BC: BC = field(default_factory=BC)
     right_BC: BC = field(default_factory=BC)
-    conv_scheme: str = "CENTRAL" # CENTRAL ou UPWIND
+    conv_scheme: str = "UPWIND" # CENTRAL ou UPWIND
+    rho_u: float = 0
 
 def init_arrays(param: Settings):
     S = np.zeros(param.n)
@@ -57,8 +58,16 @@ def set_conv_coeffs_central(S, A, dx, param: Settings):
     pass
 
 def set_conv_coeffs_upwind(S, A, dx, param: Settings):
-    # TODO: implement upwind scheme
-    pass
+    for i in range (1,param.n-1):
+        f_w = param.rho_u
+        f_e = param.rho_u
+        a_w = max(f_w, 0)
+        a_e = max(0, -f_e)
+        a_p = a_w + a_e + f_e - f_w
+        A[i, i-1] += -a_w # a_w
+        A[i, i] += a_p
+        A[i, i+1] += -a_e # a_e
+
 
 def set_inner_cells(S, A, dx, param: Settings):
     set_diff_coeffs(S, A, dx, param)
