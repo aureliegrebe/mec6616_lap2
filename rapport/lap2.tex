@@ -1,0 +1,51 @@
+\documentclass[12pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{datetime}
+\usepackage{subcaption}
+\usepackage[letterpaper, margin=1.9cm]{geometry}
+\usepackage{graphicx}
+\usepackage{epstopdf}
+\usepackage{siunitx}
+\sisetup{output-decimal-marker = {,}}
+\graphicspath{ {../figures} }
+\usepackage{derivative}
+\usepackage{booktabs}
+\usepackage[flushleft]{threeparttable}
+\usepackage{amsmath}
+
+\usepackage{csquotes}
+\usepackage[
+backend=biber,
+style=ieee,
+%style=verbose,
+citestyle=ieee,
+%sorting=nyt,
+%url=false
+]{biblatex}
+\bibliography{references}
+
+\title{MEC6616 --- LAP2}
+
+
+\author{Aurélie Grebe\\Noémie Herbinière}
+\newdate{duedate}{14}{09}{2026}
+\date{\displaydate{duedate}}
+
+\begin{document}
+\maketitle
+
+\section{Introduction}
+
+
+\section{Méthodologie}
+
+
+\section{Résultats}
+
+\printbibliography[
+	heading=bibintoc,
+	title={Références}
+]
+	
+\end{document}
