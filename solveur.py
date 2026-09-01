@@ -30,6 +30,7 @@ class Settings():
     q_p: float = Q_P
     left_BC: BC = field(default_factory=BC)
     right_BC: BC = field(default_factory=BC)
+    conv_scheme: str = "CENTRAL" # CENTRAL ou UPWIND
 
 def init_arrays(param: Settings):
     S = np.zeros(param.n)
@@ -40,17 +41,33 @@ def init_arrays(param: Settings):
 
     return S, A, dx, X
 
-def set_inner_cells(S, A, dx, param: Settings):
-    # n=N, k=THERM_COND, aire=AIRE, q_u=Q_U, q_p=Q_P):
+def set_diff_coeffs(S, A, dx, param: Settings):
     for i in range (1,param.n-1):
         a_w = a_e = param.therm_cond * param.aire / dx
         s_u = param.q_u * param.aire * dx
         s_p = param.q_p * dx
-        A[i, i-1] = -a_w # a_w
-        A[i, i] = a_w + a_e - s_p # a_p
-        A[i, i+1] = -a_e # a_e
+        A[i, i-1] += -a_w # a_w
+        A[i, i] += a_w + a_e - s_p # a_p
+        A[i, i+1] += -a_e # a_e
 
-        S[i] = s_u
+        S[i] += s_u
+
+def set_conv_coeffs_central(S, A, dx, param: Settings):
+    # TODO: implement central scheme
+    pass
+
+def set_conv_coeffs_upwind(S, A, dx, param: Settings):
+    # TODO: implement upwind scheme
+    pass
+
+def set_inner_cells(S, A, dx, param: Settings):
+    set_diff_coeffs(S, A, dx, param)
+    if param.conv_scheme == "CENTRAL":
+        set_conv_coeffs_central(S, A, dx, param)
+    elif param.conv_scheme == "UPWIND":
+        set_conv_coeffs_upwind(S, A, dx, param)
+    else:
+        raise(TypeError("Invalid convective scheme!!!"))
 
 def set_BC(S, A, dx, param: Settings, left=True):
     if left:
@@ -67,7 +84,7 @@ def set_BC(S, A, dx, param: Settings, left=True):
         s_u = param.q_u * param.aire * dx + param.aire * val
         s_p = param.q_p * dx
     else:
-        raise(TypeError("Invalid boundary type"))
+        raise(TypeError("Invalid boundary type!!!"))
 
     if left:
         A[0, 0] = a_in - s_p
