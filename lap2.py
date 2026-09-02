@@ -1,5 +1,6 @@
 # Résoudre les examples 4.1, 4.2 et 4.3 de Versteeg
 
+from math import exp
 import numpy as np
 from solveur import  solve, Settings, BC
 import matplotlib.pyplot as plt
@@ -16,52 +17,37 @@ N_LIST = [5, 10, 20, 50, 100, 200, 500, 1000]
 N_LIST_PLOT = [5, 10, 20]
 
 # Ex 4.1 
-THERM_COND1 = 1000 # (W / m K)
-AIRE1 = 10e-3 # m²
-L1 = 0.5 # m
-T_A1 = 100 # °C
-T_B1 = 500 # °C
-
-# Ex 4.2
-T_A2 = 100 # °C
-T_B2 = 200 # °C
-L2 = 0.02 # m
-AIRE2 = 1 # m²
-THERM_COND2 = 0.5 # W / mK
-Q2 = 1e6 # W/m^3
-
-# Ex 4.3
-T_A3 = 100 # °C
-Q_B3 = 0 # Car extremité isolée donc pas de transfert de chaleur
-AIRE3 = 1 # m²
-L3 = 1 # m
-THERM_COND3 = 1 # Choisi pour s'adapter à l'utilisation de la constante n sans changer la fonction définie dans solveur.py
-T_inf = 20 # °C 
-n3 = 5 # Car n² = 25
-QU_3 = n3**2 * T_inf # D'après le tableau suivant l'équation (4.46) dans le livre de Versteeg
-QP_3 = -n3**2 # Idem
+PHI_0 = 1. #
+PHI_L = 0. # 
+L = 1.0 # m
+GAMMA = 0.1 # kg/(ms)
+RHOU_I = 0.1 # kg/(m²s)
+RHOU_II = 2.5 # kg/(m²s)
 
 # Définition des solution analytiques pour chaque exemple
 
 N_ANALYTIQUE = 100
 
-sol_analytique_4_1 = lambda x: 800 * x + 100
-sol_analytique_4_2 = lambda x: ((T_B2 - T_A2) / L2 + Q2 / 2 / THERM_COND2 * (L2 - x))* x + T_A2
-sol_analytique_4_3 = lambda x: (T_A3 - T_inf) * ((np.cosh(n3 * (L3 - x)))/np.cosh(n3 * L3)) + T_inf
+sol_analytique_5_1i = lambda x: PHI_0 + (np.exp(RHOU_I * x / GAMMA) - 1) / \
+    (np.exp(RHOU_I * L / GAMMA) - 1) * (PHI_L - PHI_0)
+sol_analytique_5_1ii = lambda x: PHI_0 + (np.exp(RHOU_II * x / GAMMA) - 1) / \
+    (np.exp(RHOU_II * L / GAMMA) - 1) * (PHI_L - PHI_0)
 
-# Exemple 4.1
+# Exemple 5.2
 
-def ex4_1():
+def ex5_2i():
     param = Settings()
-    param.therm_cond = THERM_COND1
-    param.aire = AIRE1
-    param.left_BC = BC("DIRICHLET", T_A1)
-    param.right_BC = BC("DIRICHLET", T_B1)
+    param.therm_cond = GAMMA
+    param.aire = 1
+    param.rho_u = RHOU_I
+    param.left_BC = BC("DIRICHLET", PHI_0)
+    param.right_BC = BC("DIRICHLET", PHI_L)
     param.q_u = 0
     param.q_p = 0
-    param.length = L1
+    param.length = L
+    param.conv_scheme = "UPWIND"
 
-    plt.figure("ex 4.1")
+    plt.figure("ex 5.2i")
     
     # Pour changer automatiquelent la représentation de chaque résultat sur la même courbe
     plt.rc(
@@ -75,8 +61,8 @@ def ex4_1():
     
     # Tracé des résultats par VFM et la solution analytique
     
-    x = np.linspace(0, L1, N_ANALYTIQUE)
-    plt.plot(x, sol_analytique_4_1(x), label="Solution analytique")
+    x = np.linspace(0, L, N_ANALYTIQUE)
+    plt.plot(x, sol_analytique_5_1i(x), label="Solution analytique")
     for n in N_LIST_PLOT:
         param.n = n
         X, T = solve(param)
@@ -85,7 +71,7 @@ def ex4_1():
     plt.ylabel("T (°C)")
     plt.legend()
     plt.tight_layout()
-    plt.savefig("./figures/ex4_1.png")
+    plt.savefig("./figures/ex5_2i.png")
     
     # Calcul de l'erreur en fonction du nombre de points
 
@@ -95,8 +81,8 @@ def ex4_1():
         param.n = n
         h.append(1/n)
         X, T = solve(param)
-        epsilon2.append(np.sqrt(((T - sol_analytique_4_1(X))**2).mean()))
-    plt.figure("err 4.1")
+        epsilon2.append(np.sqrt(((T - sol_analytique_5_1i(X))**2).mean()))
+    plt.figure("err 5.2i")
     plt.plot(h, epsilon2)
     plt.xscale("log")
     plt.yscale("log")
@@ -104,76 +90,40 @@ def ex4_1():
     plt.xlabel("h (m)")
     plt.ylabel("ε (°C)")
     plt.tight_layout()
-    plt.savefig("./figures/epsilon4_1.png")
-
-# Exemple 4.2
-
-def ex4_2():
-    param = Settings()
-    param.length = L2
-    param.therm_cond = THERM_COND2
-    param.aire = AIRE2
-    param.q_u = Q2
-    param.left_BC = BC("DIRICHLET", T_A2)
-    param.right_BC = BC("DIRICHLET", T_B2)
-    T = solve(param)
-
-    # Tracé des résultats par VFM et la solution analytique
-
-    plt.figure("ex 4.2")
-    x = np.linspace(0, L2, N_ANALYTIQUE)
-    plt.plot(x, sol_analytique_4_2(x), label="Solution analytique")
-    for n in N_LIST_PLOT:
-        param.n = n
-        X, T = solve(param)
-        plt.plot(X, T, label=f"n = {n}")
-    plt.xlabel("x (m)")
-    plt.ylabel("T (°C)")
-    plt.legend()
-    plt.tight_layout()
-    plt.savefig("./figures/ex4_2.png")
-
-    # Calcul de l'erreur en fonction du nombre de points
-
-    epsilon2 = []
-    h = []
-    for n in N_LIST:
-        param.n = n
-        h.append(1/n)
-        X, T = solve(param)
-        epsilon2.append(np.sqrt(((T - sol_analytique_4_2(X))**2).mean()))
-    plt.figure("err 4.2")
-    plt.plot(h, epsilon2)
-    plt.xscale("log")
-    plt.yscale("log")
-    plt.grid()
-    plt.xlabel("h (m)")
-    plt.ylabel("ε (°C)")
-    plt.tight_layout()
-    plt.savefig("./figures/epsilon4_2.png")
+    plt.savefig("./figures/epsilon5_2i.png")
 
     # Calcul d'ordre de convergence:
     p = float(np.log(epsilon2[-1]/epsilon2[-2])/np.log(N_LIST[-2]/N_LIST[-1]))
     print(f"Ordre de convergence pour ex 4.2: {p:.5f}")
 
-#Exemple 4.3
-
-def ex4_3():
+def ex5_2ii():
     param = Settings()
-    param.length = L3
-    param.therm_cond = THERM_COND3
-    param.aire = AIRE3
-    param.q_u = QU_3
-    param.q_p = QP_3
-    param.left_BC = BC("DIRICHLET", T_A3)
-    param.right_BC = BC("NEUMANN", Q_B3)
-    T = solve(param)
+    param.therm_cond = GAMMA
+    param.aire = 1
+    param.rho_u = RHOU_II
+    param.left_BC = BC("DIRICHLET", PHI_0)
+    param.right_BC = BC("DIRICHLET", PHI_L)
+    param.q_u = 0
+    param.q_p = 0
+    param.length = L
+    param.conv_scheme = "UPWIND"
 
+    plt.figure("ex 5.2ii")
+    
+    # Pour changer automatiquelent la représentation de chaque résultat sur la même courbe
+    plt.rc(
+        "axes",
+        prop_cycle=(
+            cycler("color", ["#000000", "#ff6347", "#1f77b4", "#2ca02c", "#d62728"])
+            + cycler("ls", ["-", " ", " ", " ", " "])
+        )
+        + cycler("marker", [" ", "v", "8", "p", "D"]),
+    )
+    
     # Tracé des résultats par VFM et la solution analytique
-
-    plt.figure("ex 4.3")
-    x = np.linspace(0, L3, N_ANALYTIQUE)
-    plt.plot(x, sol_analytique_4_3(x), label="Solution analytique")
+    
+    x = np.linspace(0, L, N_ANALYTIQUE)
+    plt.plot(x, sol_analytique_5_1ii(x), label="Solution analytique")
     for n in N_LIST_PLOT:
         param.n = n
         X, T = solve(param)
@@ -182,18 +132,18 @@ def ex4_3():
     plt.ylabel("T (°C)")
     plt.legend()
     plt.tight_layout()
-    plt.savefig("./figures/ex4_3.png")
+    plt.savefig("./figures/ex5_2ii.png")
     
     # Calcul de l'erreur en fonction du nombre de points
-    
+
     epsilon2 = []
     h = []
     for n in N_LIST:
         param.n = n
         h.append(1/n)
         X, T = solve(param)
-        epsilon2.append(np.sqrt(((T - sol_analytique_4_3(X))**2).mean()))
-    plt.figure("err 4.3")
+        epsilon2.append(np.sqrt(((T - sol_analytique_5_1ii(X))**2).mean()))
+    plt.figure("err 5.2ii")
     plt.plot(h, epsilon2)
     plt.xscale("log")
     plt.yscale("log")
@@ -201,17 +151,17 @@ def ex4_3():
     plt.xlabel("h (m)")
     plt.ylabel("ε (°C)")
     plt.tight_layout()
-    plt.savefig("./figures/epsilon4_3.png")
+    plt.savefig("./figures/epsilon5_2ii.png")
 
     # Calcul d'ordre de convergence:
     p = float(np.log(epsilon2[-1]/epsilon2[-2])/np.log(N_LIST[-2]/N_LIST[-1]))
-    print(f"Ordre de convergend pour ex 4.3: {p:.5f}")
+    print(f"Ordre de convergence pour ex 4.2: {p:.5f}")
+
 
 
 def main():
-    ex4_1()
-    ex4_2()
-    ex4_3()
+    ex5_2i()
+    ex5_2ii()
     plt.show()
 
 if __name__ == '__main__':
