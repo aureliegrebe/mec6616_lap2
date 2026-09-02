@@ -53,8 +53,12 @@ def set_diff_coeffs(S, A, dx, param: Settings):
         S[i] += s_u
 
 def set_conv_coeffs_central(S, A, dx, param: Settings):
-    # TODO: implement central scheme
-    pass
+    for i in range (1,param.n-1):
+        a_w = param.density*param.u / 2
+        a_e = -param.density*param.u / 2
+        A[i, i-1] += -a_w # a_w
+        A[i, i] += a_w + a_e # a_p
+        A[i, i+1] += -a_e # a_e
 
 def set_conv_coeffs_upwind(S, A, dx, param: Settings):
     for i in range (1,param.n-1):
@@ -102,8 +106,41 @@ def set_diff_BC(S, A, dx, param: Settings, left=True):
         S[-1] += s_u
 
 def set_conv_BC_central(S, A, dx, param: Settings, left: bool):
-    # TODO: implement central scheme
-    pass
+    if left:
+        type = param.left_BC.type
+        val = param.left_BC.val
+    else:
+        type = param.right_BC.type
+        val = param.right_BC.val
+    F = param.density * param.u # En 1D, F_e = F_w = F_A = F_B
+    if type == "DIRICHLET":
+        if left:
+            s_p = -F
+            s_u = F * val
+        else:
+            s_p = F
+            s_u =  -F * val
+    elif type == "NEUMANN":
+        s_p = 0
+        if left:
+            s_u = F * val * dx / 2
+        else:
+            s_u = -F * val * dx / 2
+    else:
+        raise(TypeError("Invalid boundary type"))
+
+    if left:
+        a_w = 0
+        a_e = - F / 2
+        A[0, 0] += a_e + a_w - s_p # a_p
+        A[0, 1] += - a_e
+        S[0] += s_u
+    else:
+        a_w = F / 2
+        a_e = 0
+        A[-1, -1] += a_e + a_w - s_p # a_p
+        A[-1, -2] += - a_w
+        S[-1] += s_u
 
 def set_conv_BC_upwind(S, A, dx, param: Settings, left: bool):
     f_a = param.density * param.u
