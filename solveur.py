@@ -9,6 +9,7 @@ N = 5
 LENGTH = 1 # m
 Q_U = 0 # W/m³
 Q_P = 0 # W/m³
+RHO = 1.0
 
 WEST_BC_TYPE = "DIRICHLET" # DIRIECHLET ou NEUMANN
 WEST_BC_VAL = 100 # C ou C/m
@@ -22,16 +23,14 @@ class BC():
 
 @dataclass
 class Settings():
-    therm_cond: float = THERM_COND
-    aire: float = AIRE
+    diffusivity: float = THERM_COND
     n: int = 5
     length: float = LENGTH
-    q_u: float = Q_U
-    q_p: float = Q_P
     left_BC: BC = field(default_factory=BC)
     right_BC: BC = field(default_factory=BC)
     conv_scheme: str = "UPWIND" # CENTRAL ou UPWIND
-    rho_u: float = 0
+    density: float = 0
+    u: float = 0
 
 def init_arrays(param: Settings):
     S = np.zeros(param.n)
@@ -44,9 +43,9 @@ def init_arrays(param: Settings):
 
 def set_diff_coeffs(S, A, dx, param: Settings):
     for i in range (1,param.n-1):
-        a_w = a_e = param.therm_cond * param.aire / dx
-        s_u = param.q_u * param.aire * dx
-        s_p = param.q_p * dx
+        a_w = a_e = param.diffusivity / dx
+        s_u = 0
+        s_p = 0
         A[i, i-1] += -a_w # a_w
         A[i, i] += a_w + a_e - s_p # a_p
         A[i, i+1] += -a_e # a_e
@@ -59,8 +58,7 @@ def set_conv_coeffs_central(S, A, dx, param: Settings):
 
 def set_conv_coeffs_upwind(S, A, dx, param: Settings):
     for i in range (1,param.n-1):
-        f_w = param.rho_u
-        f_e = param.rho_u
+        f_w = f_e = param.density * param.u
         a_w = max(f_w, 0)
         a_e = max(0, -f_e)
         a_p = a_w + a_e + f_e - f_w
@@ -85,13 +83,12 @@ def set_diff_BC(S, A, dx, param: Settings, left=True):
     else:
         type = param.right_BC.type
         val = param.right_BC.val
-    a_in = param.therm_cond * param.aire / dx
+    a_in = param.diffusivity / dx
     if type == "DIRICHLET":
-        s_u = param.q_u * param.aire * dx + 2 * param.therm_cond * param.aire * val / dx
-        s_p = param.q_p * dx - 2 * param.therm_cond * param.aire / dx
+        s_u = 2 * param.diffusivity * val / dx
+        s_p = -2 * param.diffusivity / dx
     elif type == "NEUMANN":
-        s_u = param.q_u * param.aire * dx + param.aire * val
-        s_p = param.q_p * dx
+        raise(NotImplementedError("Neumann boundary conditions not implemented!!!"))
     else:
         raise(TypeError("Invalid boundary type!!!"))
 
@@ -109,22 +106,21 @@ def set_conv_BC_central(S, A, dx, param: Settings, left: bool):
     pass
 
 def set_conv_BC_upwind(S, A, dx, param: Settings, left: bool):
-    f_a = param.rho_u
+    f_a = param.density * param.u
     inflow = left ^ (f_a < 0)
     if left:
         type = param.left_BC.type
         val = param.left_BC.val
-        a_in = max(0, -param.rho_u)
+        a_in = max(0, -param.density * param.u)
     else:
         type = param.right_BC.type
         val = param.right_BC.val
-        a_in = max(param.rho_u, 0)
+        a_in = max(param.density * param.u, 0)
     if type == "DIRICHLET":
         s_u = inflow * (f_a * val)
         s_p = -inflow * f_a
     elif type == "NEUMANN":
-        s_u = inflow * f_a * val * dx / 2
-        s_p = 0
+        raise(NotImplementedError("Neumann boundary conditions not implemented!!!"))
     else:
         raise(TypeError("Invalid boundary type!!!"))
 

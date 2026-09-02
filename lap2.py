@@ -37,13 +37,11 @@ sol_analytique_5_1ii = lambda x: PHI_0 + (np.exp(RHOU_II * x / GAMMA) - 1) / \
 
 def ex5_2i():
     param = Settings()
-    param.therm_cond = GAMMA
-    param.aire = 1
-    param.rho_u = RHOU_I
+    param.diffusivity = GAMMA
+    param.density = 1.0
+    param.u = RHOU_I
     param.left_BC = BC("DIRICHLET", PHI_0)
     param.right_BC = BC("DIRICHLET", PHI_L)
-    param.q_u = 0
-    param.q_p = 0
     param.length = L
     param.conv_scheme = "UPWIND"
 
@@ -98,13 +96,11 @@ def ex5_2i():
 
 def ex5_2ii():
     param = Settings()
-    param.therm_cond = GAMMA
-    param.aire = 1
-    param.rho_u = RHOU_II
+    param.diffusivity = GAMMA
+    param.density = 1.0
+    param.u = RHOU_II
     param.left_BC = BC("DIRICHLET", PHI_0)
     param.right_BC = BC("DIRICHLET", PHI_L)
-    param.q_u = 0
-    param.q_p = 0
     param.length = L
     param.conv_scheme = "UPWIND"
 
