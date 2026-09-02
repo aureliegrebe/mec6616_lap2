@@ -1,4 +1,4 @@
-# Résoudre les examples 4.1, 4.2 et 4.3 de Versteeg
+# Résoudre les examples 5.1 et 5.2 de Versteeg
 
 from math import exp
 import numpy as np
@@ -16,29 +16,29 @@ N_LIST = [5, 10, 20, 50, 100, 200, 500, 1000]
 # Nombre de points pour la résolution utilisant la méthode FVM
 N_LIST_PLOT = [5, 10, 20]
 
-# Ex 4.1 
-PHI_0 = 1. #
-PHI_L = 0. # 
+# Constantes
+PHI_0 = 1.
+PHI_L = 0.
 L = 1.0 # m
 GAMMA = 0.1 # kg/(ms)
-RHOU_I = 0.1 # kg/(m²s)
-RHOU_II = 2.5 # kg/(m²s)
+RHO_U_I = 0.1 # kg/(m²s)
+RHO_U_II = 2.5 # kg/(m²s)
 
 # Définition des solution analytiques pour chaque exemple
 
 N_ANALYTIQUE = 100
 
-sol_analytique_5_1i = lambda x: PHI_0 + (np.exp(RHOU_I * x / GAMMA) - 1) / \
-    (np.exp(RHOU_I * L / GAMMA) - 1) * (PHI_L - PHI_0)
-sol_analytique_5_1ii = lambda x: PHI_0 + (np.exp(RHOU_II * x / GAMMA) - 1) / \
-    (np.exp(RHOU_II * L / GAMMA) - 1) * (PHI_L - PHI_0)
+sol_analytique_5_1i = lambda x: PHI_0 + (np.exp(RHO_U_I * x / GAMMA) - 1) / \
+    (np.exp(RHO_U_I * L / GAMMA) - 1) * (PHI_L - PHI_0)
+sol_analytique_5_1ii = lambda x: PHI_0 + (np.exp(RHO_U_II * x / GAMMA) - 1) / \
+    (np.exp(RHO_U_II * L / GAMMA) - 1) * (PHI_L - PHI_0)
 
 
 def ex5_1i():
     param = Settings()
     param.diffusivity = GAMMA
     param.density = 1.0
-    param.u = RHOU_I
+    param.u = RHO_U_I
     param.left_BC = BC("DIRICHLET", PHI_0)
     param.right_BC = BC("DIRICHLET", PHI_L)
     param.length = L
@@ -97,7 +97,7 @@ def ex5_1ii():
     param = Settings()
     param.diffusivity = GAMMA
     param.density = 1.0
-    param.u = RHOU_II
+    param.u = RHO_U_II
     param.left_BC = BC("DIRICHLET", PHI_0)
     param.right_BC = BC("DIRICHLET", PHI_L)
     param.length = L
@@ -158,7 +158,7 @@ def ex5_2i():
     param = Settings()
     param.diffusivity = GAMMA
     param.density = 1.0
-    param.u = RHOU_I
+    param.u = RHO_U_I
     param.left_BC = BC("DIRICHLET", PHI_0)
     param.right_BC = BC("DIRICHLET", PHI_L)
     param.length = L
@@ -211,13 +211,13 @@ def ex5_2i():
 
     # Calcul d'ordre de convergence:
     p = float(np.log(epsilon2[-1]/epsilon2[-2])/np.log(N_LIST[-2]/N_LIST[-1]))
-    print(f"Ordre de convergence pour ex 4.2: {p:.5f}")
+    print(f"Ordre de convergence pour ex 5.2: {p:.5f}")
 
 def ex5_2ii():
     param = Settings()
     param.diffusivity = GAMMA
     param.density = 1.0
-    param.u = RHOU_II
+    param.u = RHO_U_II
     param.left_BC = BC("DIRICHLET", PHI_0)
     param.right_BC = BC("DIRICHLET", PHI_L)
     param.length = L
@@ -270,11 +270,13 @@ def ex5_2ii():
 
     # Calcul d'ordre de convergence:
     p = float(np.log(epsilon2[-1]/epsilon2[-2])/np.log(N_LIST[-2]/N_LIST[-1]))
-    print(f"Ordre de convergence pour ex 4.2: {p:.5f}")
+    print(f"Ordre de convergence pour ex 5.2: {p:.5f}")
 
 
 
 def main():
+    ex5_1i()
+    ex5_1ii()
     ex5_2i()
     ex5_2ii()
     plt.show()
