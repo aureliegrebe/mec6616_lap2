@@ -78,7 +78,7 @@ def set_inner_cells(S, A, dx, param: Settings):
     else:
         raise(TypeError("Invalid convective scheme!!!"))
 
-def set_BC(S, A, dx, param: Settings, left=True):
+def set_diff_BC(S, A, dx, param: Settings, left=True):
     if left:
         type = param.left_BC.type
         val = param.left_BC.val
@@ -96,13 +96,55 @@ def set_BC(S, A, dx, param: Settings, left=True):
         raise(TypeError("Invalid boundary type!!!"))
 
     if left:
-        A[0, 0] = a_in - s_p
-        A[0, 1] = -a_in
-        S[0] = s_u
+        A[0, 0] += a_in - s_p
+        A[0, 1] += -a_in
+        S[0] += s_u
     else:
-        A[-1, -1] = a_in - s_p
-        A[-1, -2] = -a_in
-        S[-1] = s_u
+        A[-1, -1] += a_in - s_p
+        A[-1, -2] += -a_in
+        S[-1] += s_u
+
+def set_conv_BC_central(S, A, dx, param: Settings, left: bool):
+    # TODO: implement central scheme
+    pass
+
+def set_conv_BC_upwind(S, A, dx, param: Settings, left: bool):
+    f_a = param.rho_u
+    inflow = left ^ (f_a < 0)
+    if left:
+        type = param.left_BC.type
+        val = param.left_BC.val
+        a_in = max(0, -param.rho_u)
+    else:
+        type = param.right_BC.type
+        val = param.right_BC.val
+        a_in = max(param.rho_u, 0)
+    if type == "DIRICHLET":
+        s_u = inflow * (f_a * val)
+        s_p = -inflow * f_a
+    elif type == "NEUMANN":
+        s_u = inflow * f_a * val * dx / 2
+        s_p = 0
+    else:
+        raise(TypeError("Invalid boundary type!!!"))
+
+    if left:
+        A[0, 0] += a_in - s_p
+        A[0, 1] += -a_in
+        S[0] += s_u
+    else:
+        A[-1, -1] += a_in - s_p
+        A[-1, -2] += -a_in
+        S[-1] += s_u
+
+def set_BC(S, A, dx, param: Settings, left=True):
+    set_diff_BC(S, A, dx, param, left)
+    if param.conv_scheme == "CENTRAL":
+        set_conv_BC_central(S, A, dx, param, left)
+    elif param.conv_scheme == "UPWIND":
+        set_conv_BC_upwind(S, A, dx, param, left)
+    else:
+        raise(TypeError("Invalid convective scheme!!!"))
 
 def solve(settings: Settings):
     # initialise les arrays
