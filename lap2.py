@@ -2,7 +2,7 @@
 
 from math import exp
 import numpy as np
-from solveur import  solve, Settings, BC
+from solveur import solve, Settings, BC
 import matplotlib.pyplot as plt
 from cycler import cycler
 
@@ -65,7 +65,7 @@ def ex5_1i():
         X, T = solve(param)
         plt.plot(X, T, label=f"n = {n}")
     plt.xlabel("x (m)")
-    plt.ylabel("T (°C)")
+    plt.ylabel("Φ")
     plt.legend()
     plt.tight_layout()
     plt.savefig("./figures/ex5_1i.png")
@@ -85,7 +85,7 @@ def ex5_1i():
     plt.yscale("log")
     plt.grid()
     plt.xlabel("h (m)")
-    plt.ylabel("ε (°C)")
+    plt.ylabel("ε")
     plt.tight_layout()
     plt.savefig("./figures/epsilon5_1i.png")
 
@@ -124,7 +124,7 @@ def ex5_1ii():
         X, T = solve(param)
         plt.plot(X, T, label=f"n = {n}")
     plt.xlabel("x (m)")
-    plt.ylabel("T (°C)")
+    plt.ylabel("Φ")
     plt.legend()
     plt.tight_layout()
     plt.savefig("./figures/ex5_1ii.png")
@@ -144,7 +144,7 @@ def ex5_1ii():
     plt.yscale("log")
     plt.grid()
     plt.xlabel("h (m)")
-    plt.ylabel("ε (°C)")
+    plt.ylabel("ε")
     plt.tight_layout()
     plt.savefig("./figures/epsilon5_1ii.png")
 
@@ -185,7 +185,7 @@ def ex5_2i():
         X, T = solve(param)
         plt.plot(X, T, label=f"n = {n}")
     plt.xlabel("x (m)")
-    plt.ylabel("T (°C)")
+    plt.ylabel("Φ")
     plt.legend()
     plt.tight_layout()
     plt.savefig("./figures/ex5_2i.png")
@@ -205,7 +205,7 @@ def ex5_2i():
     plt.yscale("log")
     plt.grid()
     plt.xlabel("h (m)")
-    plt.ylabel("ε (°C)")
+    plt.ylabel("ε")
     plt.tight_layout()
     plt.savefig("./figures/epsilon5_2i.png")
 
@@ -244,7 +244,7 @@ def ex5_2ii():
         X, T = solve(param)
         plt.plot(X, T, label=f"n = {n}")
     plt.xlabel("x (m)")
-    plt.ylabel("T (°C)")
+    plt.ylabel("Φ")
     plt.legend()
     plt.tight_layout()
     plt.savefig("./figures/ex5_2ii.png")
@@ -264,7 +264,7 @@ def ex5_2ii():
     plt.yscale("log")
     plt.grid()
     plt.xlabel("h (m)")
-    plt.ylabel("ε (°C)")
+    plt.ylabel("ε")
     plt.tight_layout()
     plt.savefig("./figures/epsilon5_2ii.png")
 
@@ -275,8 +275,8 @@ def ex5_2ii():
 
 
 def main():
-    ex5_1i()
-    ex5_1ii()
+    ex5_2i()
+    ex5_2ii()
     plt.show()
 
 if __name__ == '__main__':
