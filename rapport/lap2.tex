@@ -37,7 +37,20 @@ citestyle=ieee,
 
 \section{Introduction}
 
+Dans cette œuvre, nous présentons un solveur qui résout l'équation
+d'advection-diffusion en 1-D par volumes finis telle que présentée par Versteeg
+et Malalasekera\,\cite{versteeg_introduction_2007}. Nous expliciterons d'abords
+quelques détails de l'implémentation avant de comparé des schémas centrés et en
+amont à l'aide de deux exemples.
+
 \section{Méthodologie}
+
+On cherche à résoudre l'équation de convection-diffusion:
+\begin{equation}
+	\odv{}{x}(\rho u \phi) = \odv{}{x}\left( \Gamma\odv{\phi}{x}\right)
+\end{equation}
+avec la masse volumique du fluide $\rho$, la vitesse $u$, la diffusivité
+$\Gamma$ et le variable scalaire $\phi$.
 
 \section{Résultats}
 
