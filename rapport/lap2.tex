@@ -52,6 +52,46 @@ On cherche à résoudre l'équation de convection-diffusion:
 avec la masse volumique du fluide $\rho$, la vitesse $u$, la diffusivité
 $\Gamma$ et le variable scalaire $\phi$.
 
+Lorsqu'on résout cette équation avec la méthode des volumes finies, on peut la
+décomposé en terme de diffusion et advection qui peuvent avoir des schéma
+différentes. Alors les coefficients $a_W$, $a_P$, $a_E$, $S_u$ et $S_p$ sont la
+sommation d'une partie diffusion et d'une partie convection. 
+
+La partie diffusion demeure la même que dans le LAP1, c'est à dire, un
+discrétisation à l'aide d'un différence centré. Quant au terme de convection,
+nous implémentons deux différentes schémas: centré et \emph{upwind}.
+
+\subsection{Cellules intérieurs}
+
+Dans le schéma centré, les parties convectives des coefficients sont:
+\begin{align}
+	a_{W,conv} &= \frac{\rho u}{2}\\
+	a_{E,conv} &= -\frac{\rho u}{2}\\
+	a_{P,conv} &= a_{W,conv} + a_{E,conv} = 0 \\
+	S_{p,conv} &= 0 \\
+	S_{u,conv} &= 0
+\end{align}
+Puisque $u$ est uniforme en 1D, $a_W$ et $a_E$ s'annule en $a_P$ pour ne donner 
+aucune contribution convective.
+
+Dans le cas d'un schéma \emph{upwind}, on ne considère que les cellules en amont:
+\begin{align}
+	a_{W,conv} &= 
+	\begin{cases}
+		\rho u; & \text{si } u > 0 \\
+		0; & \text{si } u > 0 
+	\end{cases}\\
+	a_{E,conv} &=
+	\begin{cases}
+		0; & \text{si } u > 0 \\
+		-\rho u; & \text{si } u > 0 
+	\end{cases}\\
+	a_{P,conv} &= a_{W,conv} + a_{E,conv} \\
+	S_{p,conv} &= 0 \\
+	S_{u,conv} &= 0
+\end{align}
+
+
 \section{Résultats}
 
 \subsection{Exemple 5.1}
@@ -88,8 +128,12 @@ $\Gamma$ et le variable scalaire $\phi$.
 		spatiale.}
 		\label{fig:err5_2}
 	\end{subfigure}
-	\caption{}
+\caption{}
 \end{figure}
+
+\section{Discussion}
+
+On voit que 
 
 \printbibliography[
 	heading=bibintoc,
