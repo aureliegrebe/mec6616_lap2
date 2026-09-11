@@ -91,42 +91,86 @@ Dans le cas d'un schéma \emph{upwind}, on ne considère que les cellules en amo
 	S_{u,conv} &= 0
 \end{align}
 
+\subsection{Cellule en frontière gauche --- schéma centré}
+
+Pour une cellule en frontière gauche avec une conditions Dirichlet, on obtient:
+\begin{align}
+	a_{W,conv} &= 0 \\
+	a_{E,conv} &= -\frac{\rho u}{2}\\
+	S_{p,conv} &= -\rho u \\
+	S_{u,conv} &= \rho u * \phi_0 \\
+	a_{p,conv} &= a_{W,conv} + a_{E,conv} - S_{p,conv} = 0 \\
+\end{align}
+
+\subsection{Cellule en frontière droite --- schéma centré}
+
+Pour une cellule en frontière gauche avec une conditions Dirichlet, on obtient:
+\begin{align}
+	a_{W,conv} &= \frac{\rho u}{2} \\
+	a_{E,conv} &= 0 \\
+	S_{p,conv} &= \rho u \\
+	S_{u,conv} &= -\rho u * \phi_L \\
+	a_{p,conv} &= a_{W,conv} + a_{E,conv} - S_{p,conv} = 0 \\
+\end{align}
+
+\subsection{Cellule en frontière gauche --- schéma \emph{upwind} ($u>0$)}
+
+Pour $u$ positif, en frontière gauche de Dirichlet, on obtient:
+\begin{align}
+	a_{W,conv} &= 0 \\
+	a_{E,conv} &= 0 \\
+	S_{p,conv} &= -\rho u \\
+	S_{u,conv} &= \rho u * \phi_0 \\
+	a_{p,conv} &= a_{W,conv} + a_{E,conv} - S_{p,conv} = 0 \\
+\end{align}
+
+\subsection{Cellule en frontière droite --- schéma \emph{upwind} ($u>0$)}
+
+Pour $u$ positif, en frontière gauche de Dirichlet, on obtient:
+\begin{align}
+	a_{W,conv} &= \rho u \\
+	a_{E,conv} &= 0 \\
+	S_{p,conv} &= 0 \\
+	S_{u,conv} &= 0 \\
+	a_{p,conv} &= a_{W,conv} + a_{E,conv} - S_{p,conv} = 0 \\
+\end{align}
+
 
 \section{Résultats}
 
-\subsection{Exemple 5.1}
+\subsection{Exemple 5.1 --- schéma centré}
 
-\subsection{Exemple 5.2}
-\begin{figure}[]
+\subsection{Exemple 5.2 --- schéma \emph{upwind}}
+\begin{figure}
 	\centering
 	\begin{subfigure}[t]{0.45\textwidth}
 		\includegraphics[width=\textwidth]{ex5_2i.png}
 		\caption{Résultats analytiques et par volumes finis de l'exemple 5.2 i)}
-		\label{fig:ex5_2}
+		\label{fig:ex5_2i}
 	\end{subfigure}
 	\hfill
 	\begin{subfigure}[t]{0.45\textwidth}
 		\includegraphics[width=\textwidth]{epsilon5_2i.png}
 		\caption{Erreur de solution selon la finesse de discrétisation
 		spatiale.}
-		\label{fig:err5_2}
+		\label{fig:err5_2i}
 	\end{subfigure}
 	\caption{}
 \end{figure}
 
-\begin{figure}[]
+\begin{figure}
 	\centering
 	\begin{subfigure}[t]{0.45\textwidth}
 		\includegraphics[width=\textwidth]{ex5_2ii.png}
 		\caption{Résultats analytiques et par volumes finis de l'exemple 5.2 ii)}
-		\label{fig:ex5_2}
+		\label{fig:ex5_2ii}
 	\end{subfigure}
 	\hfill
 	\begin{subfigure}[t]{0.45\textwidth}
 		\includegraphics[width=\textwidth]{epsilon5_2ii.png}
 		\caption{Erreur de solution selon la finesse de discrétisation
 		spatiale.}
-		\label{fig:err5_2}
+		\label{fig:err5_2ii}
 	\end{subfigure}
 \caption{}
 \end{figure}
