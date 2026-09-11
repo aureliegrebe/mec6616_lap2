@@ -39,8 +39,8 @@ citestyle=ieee,
 
 Dans cette œuvre, nous présentons un solveur qui résout l'équation
 d'advection-diffusion en 1-D par volumes finis telle que présentée par Versteeg
-et Malalasekera\,\cite{versteeg_introduction_2007}. Nous expliciterons d'abords
-quelques détails de l'implémentation avant de comparé des schémas centrés et en
+et Malalasekera\,\cite{versteeg_introduction_2007}. Nous expliciterons d'abord
+quelques détails de l'implémentation avant de comparer des schémas centrés et en
 amont à l'aide de deux exemples.
 
 \section{Méthodologie}
@@ -50,16 +50,16 @@ On cherche à résoudre l'équation de convection-diffusion:
 	\odv{}{x}(\rho u \phi) = \odv{}{x}\left( \Gamma\odv{\phi}{x}\right)
 \end{equation}
 avec la masse volumique du fluide $\rho$, la vitesse $u$, la diffusivité
-$\Gamma$ et le variable scalaire $\phi$.
+$\Gamma$ et la variable scalaire $\phi$.
 
-Lorsqu'on résout cette équation avec la méthode des volumes finies, on peut la
-décomposé en terme de diffusion et advection qui peuvent avoir des schéma
-différentes. Alors les coefficients $a_W$, $a_P$, $a_E$, $S_u$ et $S_p$ sont la
+Lorsqu'on résout cette équation avec la méthode des volumes finis, on peut la
+décomposé en termes de diffusion et de convection qui peuvent avoir des schémas
+différents. Alors les coefficients $a_W$, $a_P$, $a_E$, $S_u$ et $S_p$ sont la
 sommation d'une partie diffusion et d'une partie convection. 
 
-La partie diffusion demeure la même que dans le LAP1, c'est à dire, un
-discrétisation à l'aide d'un différence centré. Quant au terme de convection,
-nous implémentons deux différentes schémas: centré et \emph{upwind}.
+La partie diffusion demeure la même que dans le LAP1, c'est à dire, une
+discrétisation à l'aide d'une différence centré. Quant au terme de convection,
+nous implémentons deux différents schémas: centré et \emph{upwind}.
 
 \subsection{Cellules intérieurs}
 
@@ -71,7 +71,7 @@ Dans le schéma centré, les parties convectives des coefficients sont:
 	S_{p,conv} &= 0 \\
 	S_{u,conv} &= 0
 \end{align}
-Puisque $u$ est uniforme en 1D, $a_W$ et $a_E$ s'annule en $a_P$ pour ne donner 
+Puisque $u$ est uniforme en 1D, $a_W$ et $a_E$ s'annulent en $a_P$ pour ne donner 
 aucune contribution convective.
 
 Dans le cas d'un schéma \emph{upwind}, on ne considère que les cellules en amont:
@@ -93,7 +93,8 @@ Dans le cas d'un schéma \emph{upwind}, on ne considère que les cellules en amo
 
 \subsection{Cellule en frontière gauche --- schéma centré}
 
-Pour une cellule en frontière gauche avec une conditions Dirichlet, on obtient:
+Pour une cellule en frontière gauche avec une condition limite de Dirichlet, on
+obtient:
 \begin{align}
 	a_{W,conv} &= 0 \\
 	a_{E,conv} &= -\frac{\rho u}{2}\\
@@ -104,7 +105,8 @@ Pour une cellule en frontière gauche avec une conditions Dirichlet, on obtient:
 
 \subsection{Cellule en frontière droite --- schéma centré}
 
-Pour une cellule en frontière gauche avec une conditions Dirichlet, on obtient:
+Pour une cellule en frontière droite avec une condition limite de Dirichlet, on
+obtient:
 \begin{align}
 	a_{W,conv} &= \frac{\rho u}{2} \\
 	a_{E,conv} &= 0 \\
@@ -126,7 +128,7 @@ Pour $u$ positif, en frontière gauche de Dirichlet, on obtient:
 
 \subsection{Cellule en frontière droite --- schéma \emph{upwind} ($u>0$)}
 
-Pour $u$ positif, en frontière gauche de Dirichlet, on obtient:
+Pour $u$ positif, en frontière droite de Dirichlet, on obtient:
 \begin{align}
 	a_{W,conv} &= \rho u \\
 	a_{E,conv} &= 0 \\
@@ -140,13 +142,13 @@ Pour $u$ positif, en frontière gauche de Dirichlet, on obtient:
 
 \subsection{Exemple 5.1 --- schéma centré}
 L'exemple 5.1 de Versteeg et Malalasekera est un problème stationnaire
-de diffusion-convection 1D d'un variable scalaire $\phi$ qui est égale
+de diffusion-convection 1D d'une variable scalaire $\phi$ qui est égale
 à l'unité à la frontière gauche et nulle à la frontière droite. Le domaine
 est \SI{1}{m} de long, la masse volumique du fluide $\rho$ est
-\SI{1}{\kg\per\m\cubed} et la diffisivité $\Gamma = \SI{0.1}{\kg\per\m\per\s}$.
+\SI{1}{\kg\per\m\cubed} et la diffusivité $\Gamma = \SI{0.1}{\kg\per\m\per\s}$.
 
 Les solutions calculées avec un schéma centré lorsque $u = \SI{0.1}{\m\per\s}$
-sont présentés à la figure~\ref{fig:ex5_1i} à coté de la solution analytique :
+sont présentés à la figure~\ref{fig:ex5_1i} à côté de la solution analytique :
 \begin{equation}
 	\phi(x) = \phi_0 + \frac{e^{\frac{\rho ux}{\Gamma}} - 1}{
 	e^{\frac{\rho uL}{\Gamma}} - 1} \left(\phi_L - \phi_0 \right)
@@ -178,7 +180,7 @@ attentes.
 Quand on augmente la vitesse $u = \SI{2.5}{\m\per\s}$, on obtient les résultats
 à la figure~\ref{fig:ex5_1ii}. On voit que à faible $N$, la solution devient
 oscillatoire et instable. Par contre, même lors de cette instabilité l'erreur
-RMS (figure~\ref{fig:err5_1ii}) se comporte encore comme à faible vitesse mais
+RMS (figure~\ref{fig:err5_1ii}) se comporte encore comme à faible vitesse, mais
 avec des valeurs plus grandes. L'ordre de convergence observé demeure \num{2.00}.
 
 \begin{figure}
@@ -200,12 +202,12 @@ avec des valeurs plus grandes. L'ordre de convergence observé demeure \num{2.00
 
 \subsection{Exemple 5.2 --- schéma \emph{upwind}}
 
-L'exemple 5.2 de Versteeg et Malalasekera est identique à 5.1, mais résolu a
+L'exemple 5.2 de Versteeg et Malalasekera est identique à 5.1, mais résolu à
 l'aide d'un schéma \emph{upwind}. On voit à la figure~\ref{fig:ex5_2i} qu'à
-basse vitesse, les résultats se ressemble beaucoup à ceux obtenues avec le
+basse vitesse, les résultats se ressemblent beaucoup à ceux obtenus avec le
 schéma centré, suivant bien la solution analytique. Cependant, lorsqu'on
 regarde l'erreur RMS (figure~\ref{fig:err5_2i}), on constate un ordre de
-convergence observé de \num{0.998}, ce à quoi on s'attendais vu que le schéma
+convergence observé de \num{0.998}, ce à quoi on s'attendait vu que le schéma
 \emph{upwind} implémenté dans ce devoir est de premier ordre.
 
 \begin{figure}
@@ -226,11 +228,11 @@ convergence observé de \num{0.998}, ce à quoi on s'attendais vu que le schéma
 \end{figure}
 
 C'est lorsqu'on augmente la vitesse qu'on voit une différence plus marquée par
-rapport au résultats du schéma centré. La figure~\ref{fig:ex5_2ii} montre les
+rapport aux résultats du schéma centré. La figure~\ref{fig:ex5_2ii} montre les
 résultats numériques avec $u = \SI{2.5}{\m\per\s}$. Même à faible $N$, la
-solution reste stable et non-oscillatoire. Cependant, la solution est moins
-exacte que la solution centré pour des maillages plus fins. La
-figure~\ref{fig:err5_2ii} nous montre que la convergence observé est de
+solution reste stable et non oscillatoire. Cependant, la solution est moins
+exacte que la solution centrée pour des maillages plus fins. La
+figure~\ref{fig:err5_2ii} nous montre que la convergence observée est de
 \num{0.981}.
 
 \begin{figure}
