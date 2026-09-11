@@ -139,6 +139,64 @@ Pour $u$ positif, en frontière gauche de Dirichlet, on obtient:
 \section{Résultats}
 
 \subsection{Exemple 5.1 --- schéma centré}
+L'exemple 5.1 de Versteeg et Malalasekera est un problème stationnaire
+de diffusion-convection 1D d'un variable scalaire $\phi$ qui est égale
+à l'unité à la frontière gauche et nulle à la frontière droite. Le domaine
+est \SI{1}{m} de long, la masse volumique du fluide $\rho$ est
+\SI{1}{\kg\per\m\cubed} et la diffisivité $\Gamma = \SI{0.1}{\kg\per\m\per\s}$.
+
+Les solutions calculées avec un schéma centré lorsque $u = \SI{0.1}{\m\per\s}$
+sont présentés à la figure~\ref{fig:ex5_1i} à coté de la solution analytique :
+\begin{equation}
+	\phi(x) = \phi_0 + \frac{e^{\frac{\rho ux}{\Gamma}} - 1}{
+	e^{\frac{\rho uL}{\Gamma}} - 1} \left(\phi_L - \phi_0 \right)
+\end{equation}
+On voit que même à $N = 5$, la solution numérique suit bien la solution analytique.
+
+La figure~\ref{fig:err5_1i} montre l'erreur RMS en fonction de la taille de
+cellule $h$. Affiché sur une échelle logarithmique, on observe une pente de
+\num{2.00}, indiquant une convergence observée d'ordre 2, ce qui correspond aux
+attentes.
+
+\begin{figure}
+	\centering
+	\begin{subfigure}[t]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{ex5_1i.png}
+		\caption{Résultats analytiques et par volumes finis de l'exemple 5.1 i)}
+		\label{fig:ex5_1i}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[t]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{epsilon5_1i.png}
+		\caption{Erreur de solution selon la finesse de discrétisation
+		spatiale.}
+		\label{fig:err5_1i}
+	\end{subfigure}
+	\caption{}
+\end{figure}
+
+Quand on augmente la vitesse $u = \SI{2.5}{\m\per\s}$, on obtient les résultats
+à la figure~\ref{fig:ex5_1ii}. On voit que à faible $N$, la solution devient
+oscillatoire et instable. Par contre, même lors de cette instabilité l'erreur
+RMS (figure~\ref{fig:err5_1ii}) se comporte encore comme à faible vitesse mais
+avec des valeurs plus grandes. L'ordre de convergence observé demeure \num{2.00}.
+
+\begin{figure}
+	\centering
+	\begin{subfigure}[t]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{ex5_1ii.png}
+		\caption{Résultats analytiques et par volumes finis de l'exemple 5.1 ii)}
+		\label{fig:ex5_1ii}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[t]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{epsilon5_1ii.png}
+		\caption{Erreur de solution selon la finesse de discrétisation
+		spatiale.}
+		\label{fig:err5_1ii}
+	\end{subfigure}
+\caption{}
+\end{figure}
 
 \subsection{Exemple 5.2 --- schéma \emph{upwind}}
 \begin{figure}
