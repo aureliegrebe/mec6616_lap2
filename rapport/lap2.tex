@@ -199,6 +199,15 @@ avec des valeurs plus grandes. L'ordre de convergence observé demeure \num{2.00
 \end{figure}
 
 \subsection{Exemple 5.2 --- schéma \emph{upwind}}
+
+L'exemple 5.2 de Versteeg et Malalasekera est identique à 5.1, mais résolu a
+l'aide d'un schéma \emph{upwind}. On voit à la figure~\ref{fig:ex5_2i} qu'à
+basse vitesse, les résultats se ressemble beaucoup à ceux obtenues avec le
+schéma centré, suivant bien la solution analytique. Cependant, lorsqu'on
+regarde l'erreur RMS (figure~\ref{fig:err5_2i}), on constate un ordre de
+convergence observé de \num{0.998}, ce à quoi on s'attendais vu que le schéma
+\emph{upwind} implémenté dans ce devoir est de premier ordre.
+
 \begin{figure}
 	\centering
 	\begin{subfigure}[t]{0.45\textwidth}
@@ -215,6 +224,14 @@ avec des valeurs plus grandes. L'ordre de convergence observé demeure \num{2.00
 	\end{subfigure}
 	\caption{}
 \end{figure}
+
+C'est lorsqu'on augmente la vitesse qu'on voit une différence plus marquée par
+rapport au résultats du schéma centré. La figure~\ref{fig:ex5_2ii} montre les
+résultats numériques avec $u = \SI{2.5}{\m\per\s}$. Même à faible $N$, la
+solution reste stable et non-oscillatoire. Cependant, la solution est moins
+exacte que la solution centré pour des maillages plus fins. La
+figure~\ref{fig:err5_2ii} nous montre que la convergence observé est de
+\num{0.981}.
 
 \begin{figure}
 	\centering
@@ -233,9 +250,6 @@ avec des valeurs plus grandes. L'ordre de convergence observé demeure \num{2.00
 \caption{}
 \end{figure}
 
-\section{Discussion}
-
-On voit que 
 
 \printbibliography[
 	heading=bibintoc,
