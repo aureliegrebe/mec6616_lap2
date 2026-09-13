@@ -46,7 +46,7 @@ def ex5_1i():
 
     plt.figure("ex 5.1i")
     
-    # Pour changer automatiquelent la représentation de chaque résultat sur la même courbe
+    # Pour changer automatiquement la représentation de chaque résultat sur la même courbe
     plt.rc(
         "axes",
         prop_cycle=(
@@ -91,7 +91,7 @@ def ex5_1i():
 
     # Calcul d'ordre de convergence:
     p = float(np.log(epsilon2[-1]/epsilon2[-2])/np.log(N_LIST[-2]/N_LIST[-1]))
-    print(f"Ordre de convergence pour ex 5.1: {p:.5f}")
+    print(f"Ordre de convergence pour ex 5.1.i: {p:.5f}")
 
 def ex5_1ii():
     param = Settings()
@@ -105,7 +105,7 @@ def ex5_1ii():
 
     plt.figure("ex 5.1ii")
     
-    # Pour changer automatiquelent la représentation de chaque résultat sur la même courbe
+    # Pour changer automatiquement la représentation de chaque résultat sur la même courbe
     plt.rc(
         "axes",
         prop_cycle=(
@@ -150,7 +150,7 @@ def ex5_1ii():
 
     # Calcul d'ordre de convergence:
     p = float(np.log(epsilon2[-1]/epsilon2[-2])/np.log(N_LIST[-2]/N_LIST[-1]))
-    print(f"Ordre de convergence pour ex 5.1: {p:.5f}")
+    print(f"Ordre de convergence pour ex 5.1.ii: {p:.5f}")
 
 # Exemple 5.2
 
@@ -166,7 +166,7 @@ def ex5_2i():
 
     plt.figure("ex 5.2i")
     
-    # Pour changer automatiquelent la représentation de chaque résultat sur la même courbe
+    # Pour changer automatiquement la représentation de chaque résultat sur la même courbe
     plt.rc(
         "axes",
         prop_cycle=(
@@ -211,7 +211,7 @@ def ex5_2i():
 
     # Calcul d'ordre de convergence:
     p = float(np.log(epsilon2[-1]/epsilon2[-2])/np.log(N_LIST[-2]/N_LIST[-1]))
-    print(f"Ordre de convergence pour ex 5.2: {p:.5f}")
+    print(f"Ordre de convergence pour ex 5.2.i: {p:.5f}")
 
 def ex5_2ii():
     param = Settings()
@@ -225,7 +225,7 @@ def ex5_2ii():
 
     plt.figure("ex 5.2ii")
     
-    # Pour changer automatiquelent la représentation de chaque résultat sur la même courbe
+    # Pour changer automatiquement la représentation de chaque résultat sur la même courbe
     plt.rc(
         "axes",
         prop_cycle=(
@@ -270,7 +270,7 @@ def ex5_2ii():
 
     # Calcul d'ordre de convergence:
     p = float(np.log(epsilon2[-1]/epsilon2[-2])/np.log(N_LIST[-2]/N_LIST[-1]))
-    print(f"Ordre de convergence pour ex 5.2: {p:.5f}")
+    print(f"Ordre de convergence pour ex 5.2.ii: {p:.5f}")
 
 
 

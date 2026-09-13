@@ -38,10 +38,10 @@ citestyle=ieee,
 \section{Introduction}
 
 Dans cette œuvre, nous présentons un solveur qui résout l'équation
-d'advection-diffusion en 1-D par volumes finis telle que présentée par Versteeg
+de diffusion-convection en 1-D par volumes finis telle que présentée par Versteeg
 et Malalasekera\,\cite{versteeg_introduction_2007}. Nous expliciterons d'abord
 quelques détails de l'implémentation avant de comparer des schémas centrés et en
-amont à l'aide de deux exemples.
+amont (\emph{upwind}) à l'aide de deux exemples.
 
 \section{Méthodologie}
 
@@ -53,7 +53,7 @@ avec la masse volumique du fluide $\rho$, la vitesse $u$, la diffusivité
 $\Gamma$ et la variable scalaire $\phi$.
 
 Lorsqu'on résout cette équation avec la méthode des volumes finis, on peut la
-décomposé en termes de diffusion et de convection qui peuvent avoir des schémas
+décomposer en termes de diffusion et de convection qui peuvent avoir des schémas
 différents. Alors les coefficients $a_W$, $a_P$, $a_E$, $S_u$ et $S_p$ sont la
 sommation d'une partie diffusion et d'une partie convection. 
 
@@ -71,20 +71,19 @@ Dans le schéma centré, les parties convectives des coefficients sont:
 	S_{p,conv} &= 0 \\
 	S_{u,conv} &= 0
 \end{align}
-Puisque $u$ est uniforme en 1D, $a_W$ et $a_E$ s'annulent en $a_P$ pour ne donner 
-aucune contribution convective.
+Puisque $u$ est uniforme en 1D et $\rho$ constant dans un cas incompressible, $a_W$ et $a_E$ s'annulent en $a_P$ pour ne donner aucune contribution convective.
 
 Dans le cas d'un schéma \emph{upwind}, on ne considère que les cellules en amont:
 \begin{align}
 	a_{W,conv} &= 
 	\begin{cases}
 		\rho u; & \text{si } u > 0 \\
-		0; & \text{si } u > 0 
+		0; & \text{si } u < 0 
 	\end{cases}\\
 	a_{E,conv} &=
 	\begin{cases}
 		0; & \text{si } u > 0 \\
-		-\rho u; & \text{si } u > 0 
+		-\rho u; & \text{si } u < 0 
 	\end{cases}\\
 	a_{P,conv} &= a_{W,conv} + a_{E,conv} \\
 	S_{p,conv} &= 0 \\
@@ -160,22 +159,7 @@ cellule $h$. Affiché sur une échelle logarithmique, on observe une pente de
 \num{2.00}, indiquant une convergence observée d'ordre 2, ce qui correspond aux
 attentes.
 
-\begin{figure}
-	\centering
-	\begin{subfigure}[t]{0.45\textwidth}
-		\includegraphics[width=\textwidth]{ex5_1i.png}
-		\caption{Résultats analytiques et par volumes finis de l'exemple 5.1 i)}
-		\label{fig:ex5_1i}
-	\end{subfigure}
-	\hfill
-	\begin{subfigure}[t]{0.45\textwidth}
-		\includegraphics[width=\textwidth]{epsilon5_1i.png}
-		\caption{Erreur de solution selon la finesse de discrétisation
-		spatiale.}
-		\label{fig:err5_1i}
-	\end{subfigure}
-	\caption{}
-\end{figure}
+
 
 Quand on augmente la vitesse $u = \SI{2.5}{\m\per\s}$, on obtient les résultats
 à la figure~\ref{fig:ex5_1ii}. On voit que à faible $N$, la solution devient
@@ -204,10 +188,10 @@ avec des valeurs plus grandes. L'ordre de convergence observé demeure \num{2.00
 
 L'exemple 5.2 de Versteeg et Malalasekera est identique à 5.1, mais résolu à
 l'aide d'un schéma \emph{upwind}. On voit à la figure~\ref{fig:ex5_2i} qu'à
-basse vitesse, les résultats se ressemblent beaucoup à ceux obtenus avec le
+basse vitesse, les résultats ressemblent beaucoup à ceux obtenus avec le
 schéma centré, suivant bien la solution analytique. Cependant, lorsqu'on
 regarde l'erreur RMS (figure~\ref{fig:err5_2i}), on constate un ordre de
-convergence observé de \num{0.998}, ce à quoi on s'attendait vu que le schéma
+convergence observé de \num{0.998}, ce à quoi on s'attendait puisque que le schéma
 \emph{upwind} implémenté dans ce devoir est de premier ordre.
 
 \begin{figure}
@@ -252,10 +236,15 @@ figure~\ref{fig:err5_2ii} nous montre que la convergence observée est de
 \caption{}
 \end{figure}
 
+\subsection{Conclusion}
+
+On peut donc conclure que le modèle centré est plus adapté aux problèmes à légère convection (petites vitesses) car il génère une plus faible erreur que le modèle \emph{upwind}. Ce dernier est cependant plus adapté aux modèles à forte convection (grandes vitesses) car il demeure stable même à faibles itérations. Cependant, le modèle \emph{upwind} tend à s'éloigner plus de la solution analytique car %%TO DO : explication Aurélie
+
 
 \printbibliography[
 	heading=bibintoc,
 	title={Références}
 ]
 	
+
 \end{document}
