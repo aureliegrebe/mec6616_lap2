@@ -13,6 +13,7 @@
 \usepackage{booktabs}
 \usepackage[flushleft]{threeparttable}
 \usepackage{amsmath}
+\usepackage{parskip}
 
 \usepackage{csquotes}
 \usepackage[
@@ -254,7 +255,9 @@ figure~\ref{fig:err5_2ii} nous montre que la convergence observée est de
 
 \subsection{Conclusion}
 
-On peut donc conclure que le modèle centré est plus adapté aux problèmes à légère convection (petites vitesses) car il génère une plus faible erreur que le modèle \emph{upwind}. Ce dernier est cependant plus adapté aux modèles à forte convection (grandes vitesses) car il demeure stable même à faibles itérations. Cependant, le modèle \emph{upwind} tend à s'éloigner plus de la solution analytique car %%TO DO : explication Aurélie
+On peut donc conclure que le modèle centré est plus adapté aux problèmes à légère convection (petites vitesses) car il génère une plus faible erreur que le modèle \emph{upwind}. Ce dernier est cependant plus adapté aux modèles à forte convection (grandes vitesses) car il demeure stable même à des discrétisations grossières. Cependant, le modèle \emph{upwind} tend à converger moins rapidement vers la solution analytique car il s'agit d'un schéma du premier ordre.
+
+Même dans certains cas à forte convection, il peut être intéressant d'utiliser un modèle centré avec un maillage plus fin si la précision est importante pour ce problème.
 
 
 \printbibliography[
